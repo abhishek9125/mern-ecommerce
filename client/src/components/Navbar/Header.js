@@ -34,7 +34,7 @@ function Header() {
                 </Link>
             </Item>
 
-            <SubMenu icon={ <SettingOutlined /> } title="Username">
+            <SubMenu icon={ <SettingOutlined /> } title="Username" key="username">
                 <Item key="setting1">
                     Option 1
                 </Item>
