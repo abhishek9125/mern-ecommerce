@@ -26,9 +26,12 @@ function Register() {
                     type="email" 
                     className="form-control" 
                     value={email}
+                    placeholder="Your Email"
                     onChange={e => setEmail(e.target.value)}
                     autoFocus
                 />
+
+                <br />
 
                 <button type="submit" className="btn btn-raised">
                     Register

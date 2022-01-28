@@ -35,8 +35,6 @@ function RegisterComplete({ history }) {
                 
                 let user = auth.currentUser;
                 await updatePassword(user, password);
-
-                const idTokenResult = await user.getIdTokenResult();
                 navigate('/');
             }
         } catch(error) {
