@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { auth, googleAuthProvider } from '../../firebase';
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { toast } from 'react-toastify';
@@ -6,6 +7,12 @@ import { Button } from 'antd';
 import { GoogleOutlined, MailOutlined, LoadingOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
+
+const createOrUpdateUser = async (authToken) => {
+    return await axios.post(`${process.env.REACT_APP_API}/create-or-update-user`, {}, {
+        headers: { authToken }
+    })
+}
 
 function Login() {
 
@@ -30,6 +37,9 @@ function Login() {
             const result = await signInWithEmailAndPassword(auth, email, password);
             const { user } = result;
             const idTokenResult = await user.getIdTokenResult();
+            createOrUpdateUser(idTokenResult.token)
+            .then((response) => console.log('Response : ', response))
+            .catch();
             dispatch({
                 type: 'LOGGED_IN_USER',
                 payload: {
