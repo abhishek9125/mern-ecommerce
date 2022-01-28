@@ -6,6 +6,7 @@ import { auth } from "./firebase";
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import RegisterComplete from './pages/auth/RegisterComplete';
+import ForgotPassword from "./pages/auth/ForgotPassword";
 import Home from './pages/Home';
 import Header from "./components/Navbar/Header";
 import 'react-toastify/dist/ReactToastify.css';
@@ -39,6 +40,7 @@ function App() {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />  
         <Route exact path="/register/complete" element={<RegisterComplete />} />  
+        <Route exact path="/forgot/password" element={<ForgotPassword />} />  
       </Routes>
     </BrowserRouter>
   );
