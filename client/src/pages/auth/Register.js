@@ -5,16 +5,14 @@ import { toast } from 'react-toastify';
 
 function Register() {
 
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState("abhishek40407@gmail.com");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const config = {
             url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
             handleCodeInApp: true
         }
-
         await sendSignInLinkToEmail(auth, email, config);
         toast.success(`Email is sent to ${email}. Click the link to complete your registration.`);
         window.localStorage.setItem('emailForRegistration', email);

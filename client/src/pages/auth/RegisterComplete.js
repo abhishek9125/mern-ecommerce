@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { auth } from '../../firebase';
 import { signInWithEmailLink, updatePassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 
 function RegisterComplete({ history }) {
@@ -8,6 +9,8 @@ function RegisterComplete({ history }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const navigate = useNavigate();
+    
     useEffect(() => {
         setEmail(window.localStorage.getItem("emailForRegistration"));
     },[])
@@ -34,8 +37,7 @@ function RegisterComplete({ history }) {
                 await updatePassword(user, password);
 
                 const idTokenResult = await user.getIdTokenResult();
-
-                history.push('/');
+                navigate('/');
             }
         } catch(error) {
             console.log(`Error in Registration`, error)
