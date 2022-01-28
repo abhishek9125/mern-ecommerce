@@ -11,6 +11,14 @@ function ForgotPassword() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
+    const { user } = useSelector((state) => ({ ...state }));
+
+    useEffect(() => {
+        if(user && user.token) {
+            navigate('/');
+        }
+    },[user])
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);

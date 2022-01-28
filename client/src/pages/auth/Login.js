@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { auth, googleAuthProvider } from '../../firebase';
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { toast } from 'react-toastify';
 import { Button } from 'antd';
 import { GoogleOutlined, MailOutlined, LoadingOutlined } from '@ant-design/icons';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 
 function Login() {
@@ -14,6 +14,14 @@ function Login() {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const { user } = useSelector((state) => ({ ...state }));
+
+    useEffect(() => {
+        if(user && user.token) {
+            navigate('/');
+        }
+    },[user])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
