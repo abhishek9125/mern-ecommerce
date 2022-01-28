@@ -1,16 +1,31 @@
 import React, { useState } from 'react';
 import { Menu } from 'antd';
-import { AppstoreOutlined, SettingOutlined, UserAddOutlined, UserOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, LogoutOutlined, SettingOutlined, UserAddOutlined, UserOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-
+import { signOut } from 'firebase/auth';
+import { auth } from '../../firebase';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 const { SubMenu, Item } = Menu;
 
 function Header() {
 
     const [current, setCurrent] = useState('home');
 
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const handleClick = (e) => {
         setCurrent(e.key)
+    }
+
+    const logout = () => {
+        signOut(auth);
+        dispatch({
+            type: 'LOGOUT',
+            payload: null
+        });
+        navigate('/');
     }
 
     return (
@@ -40,6 +55,9 @@ function Header() {
                 </Item>
                 <Item key="setting2">
                     Option 2
+                </Item>
+                <Item icon={ <LogoutOutlined /> } onClick={logout}>
+                    Logout
                 </Item>
             </SubMenu>
 
