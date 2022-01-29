@@ -57,11 +57,17 @@ function Header() {
             {
                 user &&
                 <SubMenu icon={ <SettingOutlined /> } title={user.email && user.email.split("@")[0]} key="username">
-                    <Item key="setting1">
-                        Option 1
-                    </Item>
+                    { user.role == 'admin' &&
+                        <Item key="setting1">
+                            <Link to="/admin/dashboard">
+                                Admin Dashboard
+                            </Link>
+                        </Item>
+                    }
                     <Item key="setting2">
-                        Option 2
+                        <Link to="/user/history">
+                            User Dashboard
+                        </Link>
                     </Item>
                     <Item icon={ <LogoutOutlined /> } onClick={logout}>
                         Logout
