@@ -5,6 +5,7 @@ import LoadingToRedirect from './LoadingToRedirect';
 import { currentAdmin } from '../../functions/auth';
 import AdminDashboard from '../../pages/admin/AdminDashboard';
 import CategoryCreate from '../../pages/admin/category/CategoryCreate';
+import CategoryUpdate from '../../pages/admin/category/CategoryUpdate';
 
 function AdminRoute({ children, ...rest }) {
 
@@ -28,6 +29,7 @@ function AdminRoute({ children, ...rest }) {
         <Routes>
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="category" element={<CategoryCreate />} />
+            <Route path="category/:slug" element={<CategoryUpdate />} />
         </Routes>
     )  : ( 
         <LoadingToRedirect />

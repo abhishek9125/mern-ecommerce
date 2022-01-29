@@ -6,25 +6,25 @@ function AdminNav() {
         <nav>
             <ul className="nav flex-column">
                 <li className="nav-item">
-                    <Link to="/admin/dashboard" className="nav-link">Admin Dashboard</Link>
+                    <Link to="/admin/dashboard" className="nav-link">Dashboard</Link>
                 </li>
                 <li className="nav-item">
-                    <Link to="/admin/product" className="nav-link">Create New Product</Link>
+                    <Link to="/admin/product" className="nav-link">Product</Link>
                 </li>
                 <li className="nav-item">
-                    <Link to="/admin/products" className="nav-link">View All Products</Link>
+                    <Link to="/admin/products" className="nav-link">Products</Link>
                 </li>
                 <li className="nav-item">
-                    <Link to="/admin/category" className="nav-link">Category Section</Link>
+                    <Link to="/admin/category" className="nav-link">Category</Link>
                 </li>
                 <li className="nav-item">
-                    <Link to="/admin/subcategory" className="nav-link">Sub Category Section</Link>
+                    <Link to="/admin/subcategory" className="nav-link">Sub Category</Link>
                 </li>
                 <li className="nav-item">
-                    <Link to="/admin/coupon" className="nav-link">Create New Coupon</Link>
+                    <Link to="/admin/coupon" className="nav-link">Coupons</Link>
                 </li>
                 <li className="nav-item">
-                    <Link to="/user/password" className="nav-link">Change Password</Link>
+                    <Link to="/user/password" className="nav-link">Password</Link>
                 </li>
             </ul>
             
