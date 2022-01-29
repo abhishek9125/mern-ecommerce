@@ -17,6 +17,14 @@ function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const roleBasedRedirection = (response) => {
+        if( response.data.role === 'admin') {
+            navigate('/admin/dashboard');
+        } else {
+            navigate('/user/history');
+        }
+    }
+
     const { user } = useSelector((state) => ({ ...state }));
 
     useEffect(() => {
@@ -44,11 +52,11 @@ function Login() {
                         token: idTokenResult.token
                     }
                 });
+                roleBasedRedirection(response);
             })
             .catch((error) => console.log('Error Logging In : ', error));
             setLoading(false);
             toast.success('Login Successful');
-            navigate('/');
         } catch (error) {
             console.log("Error : ",error);
             toast.error(error.message);
@@ -73,10 +81,10 @@ function Login() {
                         token: idTokenResult.token
                     }
                 });
+                roleBasedRedirection(response);
             })
             .catch((error) => console.log('Error Logging In : ', error));
             toast.success('Login Successful');
-            navigate('/');
         })
         .catch((error) => {
             console.log("Error : ",error);
