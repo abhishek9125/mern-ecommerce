@@ -25,6 +25,3 @@ export const removeCategory = async (slug, authToken) => {
         headers: { authToken }
     });
 }
-
-
-
