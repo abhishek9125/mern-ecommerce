@@ -6,7 +6,7 @@ import { getCategory, updateCategory } from '../../../functions/category';
 import { useNavigate, useParams } from "react-router-dom";
 import CategoryForm from '../../../components/Forms/CategoryForm';
 
-function CategoryUpdate(props) {
+function CategoryUpdate() {
 
     const [name, setName] = useState('');
     const [loading, setLoading] = useState(false);

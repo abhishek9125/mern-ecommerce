@@ -30,8 +30,8 @@ function CategoryCreate() {
             setLoading(false);
             setName('');
             toast.success(`${response.data.name} Category Created Successfully..!!`);
-            const cateforyResponse = await getCategories();
-            setCategories(cateforyResponse.data);
+            const categoryResponse = await getCategories();
+            setCategories(categoryResponse.data);
         })
         .catch((error) => {
             setLoading(false);
@@ -47,8 +47,8 @@ function CategoryCreate() {
             .then(async (response) => {
                 setLoading(false);
                 toast.error(`${response.data.name} Category Deleted Successfully..!!`);
-                const cateforyResponse = await getCategories();
-                setCategories(cateforyResponse.data);
+                const categoryResponse = await getCategories();
+                setCategories(categoryResponse.data);
             })
             .catch((error) => {
                 setLoading(false);

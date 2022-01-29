@@ -34,8 +34,8 @@ exports.read = async (req, res) => {
 
 exports.update = async (req, res) => {
     try {
-        const { name } = req.body;
-        const updatedSubCategory = await Sub.findOneAndUpdate({ slug: req.params.slug }, { name, slug: slugify(name) }, { new: true });
+        const { name, parent } = req.body;
+        const updatedSubCategory = await Sub.findOneAndUpdate({ slug: req.params.slug }, { name, parent, slug: slugify(name) }, { new: true });
         res.json(updatedSubCategory);
     } catch (error) {
         console.log('Error Updating Sub Category : ', error);

@@ -28,7 +28,6 @@ function SubCreate() {
         setSubs(subResponse.data);
     },[])
 
-    console.log(`subs`, subs)
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
@@ -83,7 +82,7 @@ function SubCreate() {
                             className="form-control"
                             onChange={(e) => setCategory(e.target.value)}
                         >
-                            <option>Please select a Category</option>
+                            <option value=''>Please select a Category</option>
                             {
                                 categories.length > 0 &&
                                 categories.map((c) => {
@@ -103,17 +102,24 @@ function SubCreate() {
                     {
                         subs.filter(searched(keyword)).map((sub) => {
                             return (
-                                <div key={sub._id} className="alert alert-secondary">
-                                    {sub.name}
-                                    <span className="btn btn-small float-right" onClick={() => handleRemoveSub(sub.slug)}>
-                                        <DeleteOutlined className="text-danger" />
-                                    </span> 
-                                    <span className="btn btn-small float-right">
-                                        <Link to={`/admin/sub/${sub.slug}`}>
-                                            <EditOutlined className="text-warning" />
-                                        </Link>
-                                    </span> 
-                                </div>
+                                <>
+                                {
+                                    sub.parent === category || category == '' ?
+                                    <div key={sub._id} className="alert alert-secondary">
+                                        {sub.name}
+                                        <span className="btn btn-small float-right" onClick={() => handleRemoveSub(sub.slug)}>
+                                            <DeleteOutlined className="text-danger" />
+                                        </span> 
+                                        <span className="btn btn-small float-right">
+                                            <Link to={`/admin/sub/${sub.slug}`}>
+                                                <EditOutlined className="text-warning" />
+                                            </Link>
+                                        </span> 
+                                    </div>
+                                    :
+                                    null
+                                }
+                                </>
                             )
                         })
                     }
