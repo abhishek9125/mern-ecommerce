@@ -9,6 +9,7 @@ import RegisterComplete from './pages/auth/RegisterComplete';
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import Home from './pages/Home';
 import Header from "./components/Navbar/Header";
+import { currentUser } from './functions/auth';
 import 'react-toastify/dist/ReactToastify.css';
  
 function App() {
@@ -19,13 +20,20 @@ function App() {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if(user) {
         const idTokenResult = await user.getIdTokenResult();
-        dispatch({
-          type: 'LOGGED_IN_USER',
-          payload: {
-            email: user.email,
-            token: idTokenResult.token
-          }
+        currentUser(idTokenResult.token)
+        .then((response) => {
+            dispatch({
+                type: 'LOGGED_IN_USER',
+                payload: {
+                    name: response.data.name,
+                    email: response.data.email,
+                    role: response.data.role,
+                    _id: response.data._id,
+                    token: idTokenResult.token
+                }
+            });
         })
+        .catch((error) => console.log('Error In Fetching User Data : ', error));
       }
     })
     return () => unsubscribe();

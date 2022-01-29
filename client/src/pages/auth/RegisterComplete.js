@@ -52,7 +52,7 @@ function RegisterComplete() {
                         }
                     });
                 })
-                .catch();
+                .catch((error) => console.log('Error In Registering : ', error));
                 navigate('/');
             }
         } catch(error) {

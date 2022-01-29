@@ -45,7 +45,7 @@ function Login() {
                     }
                 });
             })
-            .catch();
+            .catch((error) => console.log('Error Logging In : ', error));
             setLoading(false);
             toast.success('Login Successful');
             navigate('/');
@@ -74,7 +74,7 @@ function Login() {
                     }
                 });
             })
-            .catch();
+            .catch((error) => console.log('Error Logging In : ', error));
             toast.success('Login Successful');
             navigate('/');
         })
