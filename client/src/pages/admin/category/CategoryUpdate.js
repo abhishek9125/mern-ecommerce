@@ -23,7 +23,7 @@ function CategoryUpdate(props) {
         setLoading(true);
         updateCategory(slug, { name }, user.token)
         .then(async (response) => {
-            if(!response.data) {
+            if(!response.data) { 
                 toast.error('Something Went Wrong');
                 navigate('/admin/category');
             }
