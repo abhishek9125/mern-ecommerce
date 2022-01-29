@@ -11,5 +11,4 @@ exports.authCheck = async (req, res, next) => {
             error: 'Token is either Invalid or Expired.'
         })
     }
-    next();
 }

@@ -3,12 +3,15 @@ import { auth } from '../../firebase';
 import { signInWithEmailLink, updatePassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
+import { useDispatch } from "react-redux";
+import { createOrUpdateUser } from '../../functions/auth';
 
-function RegisterComplete({ history }) {
+function RegisterComplete() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     
     useEffect(() => {
@@ -35,6 +38,21 @@ function RegisterComplete({ history }) {
                 
                 let user = auth.currentUser;
                 await updatePassword(user, password);
+                const idTokenResult = await user.getIdTokenResult();
+                createOrUpdateUser(idTokenResult.token)
+                .then((response) => {
+                    dispatch({
+                        type: 'LOGGED_IN_USER',
+                        payload: {
+                            name: response.data.name,
+                            email: response.data.email,
+                            role: response.data.role,
+                            _id: response.data._id,
+                            token: idTokenResult.token
+                        }
+                    });
+                })
+                .catch();
                 navigate('/');
             }
         } catch(error) {

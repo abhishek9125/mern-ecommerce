@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { auth, googleAuthProvider } from '../../firebase';
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { toast } from 'react-toastify';
@@ -7,18 +6,14 @@ import { Button } from 'antd';
 import { GoogleOutlined, MailOutlined, LoadingOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-
-const createOrUpdateUser = async (authToken) => {
-    return await axios.post(`${process.env.REACT_APP_API}/create-or-update-user`, {}, {
-        headers: { authToken }
-    })
-}
+import { createOrUpdateUser } from '../../functions/auth';
 
 function Login() {
 
     const [email, setEmail] = useState("abhishek40407@gmail.com");
     const [password, setPassword] = useState("abhishek");
     const [loading, setLoading] = useState(false);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -38,15 +33,19 @@ function Login() {
             const { user } = result;
             const idTokenResult = await user.getIdTokenResult();
             createOrUpdateUser(idTokenResult.token)
-            .then((response) => console.log('Response : ', response))
+            .then((response) => {
+                dispatch({
+                    type: 'LOGGED_IN_USER',
+                    payload: {
+                        name: response.data.name,
+                        email: response.data.email,
+                        role: response.data.role,
+                        _id: response.data._id,
+                        token: idTokenResult.token
+                    }
+                });
+            })
             .catch();
-            dispatch({
-                type: 'LOGGED_IN_USER',
-                payload: {
-                  email: user.email,
-                  token: idTokenResult.token
-                }
-            });
             setLoading(false);
             toast.success('Login Successful');
             navigate('/');
@@ -62,13 +61,20 @@ function Login() {
         .then(async (result) => {
             const { user } = result;
             const idTokenResult = await user.getIdTokenResult();
-            dispatch({
-                type: 'LOGGED_IN_USER',
-                payload: {
-                  email: user.email,
-                  token: idTokenResult.token
-                }
-            });
+            createOrUpdateUser(idTokenResult.token)
+            .then((response) => {
+                dispatch({
+                    type: 'LOGGED_IN_USER',
+                    payload: {
+                        name: response.data.name,
+                        email: response.data.email,
+                        role: response.data.role,
+                        _id: response.data._id,
+                        token: idTokenResult.token
+                    }
+                });
+            })
+            .catch();
             toast.success('Login Successful');
             navigate('/');
         })
@@ -80,7 +86,7 @@ function Login() {
 
     const loginForm = () => {
         return (
-            <form onSubmit={handleSubmit}>
+            <form>
 
                 <div className="form-group">
                     <input 
