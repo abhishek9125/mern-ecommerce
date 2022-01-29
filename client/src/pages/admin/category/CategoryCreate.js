@@ -1,7 +1,7 @@
 import React from 'react';
-import AdminNav from '../../components/Navbar/AdminNav';
+import AdminNav from '../../../components/Navbar/AdminNav';
 
-function AdminDashboard() {
+function CategoryCreate() {
     return (
         <div className="container-fluid">
             <div className="row">
@@ -10,11 +10,11 @@ function AdminDashboard() {
                 <AdminNav />
             </div>
             <div className="col">
-                Admin Dashboard
+                Create Category
             </div>
             </div>
         </div>
     )
 }
 
-export default AdminDashboard;
+export default CategoryCreate;

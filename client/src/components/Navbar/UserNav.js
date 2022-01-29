@@ -20,4 +20,4 @@ function UserNav() {
     )
 }
 
-export default UserNav
+export default UserNav;
