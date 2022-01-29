@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { getCategory, updateCategory } from '../../../functions/category';
 import { useNavigate, useParams } from "react-router-dom";
+import CategoryForm from '../../../components/Forms/CategoryForm';
 
 function CategoryUpdate(props) {
 
@@ -39,26 +40,6 @@ function CategoryUpdate(props) {
         });
     }
 
-    const categoryForm = () => {
-        return (
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Name</label>
-                    <input 
-                        type="text"
-                        className="form-control"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        autoFocus
-                        required
-                    />
-                    <br />
-                    <button className="btn btn-outline-primary" disabled={loading || name.length < 2}>Save</button>
-                </div>
-            </form>
-        )
-    }
-
     return (
         <div className="container-fluid">
             <div className="row">
@@ -67,8 +48,7 @@ function CategoryUpdate(props) {
                 </div>
                 <div className="col">
                     <h4>Update Category</h4>
-                    {categoryForm()}
-
+                    <CategoryForm handleSubmit={handleSubmit} name={name} setName={setName} loading={loading} />
                 </div>
             </div>
         </div>

@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { createCategory, getCategories, removeCategory } from '../../../functions/category';
 import { Link } from 'react-router-dom';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import CategoryForm from '../../../components/Forms/CategoryForm';
 
 function CategoryCreate() {
 
@@ -55,26 +56,6 @@ function CategoryCreate() {
         }
     }
 
-    const categoryForm = () => {
-        return (
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Name</label>
-                    <input 
-                        type="text"
-                        className="form-control"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        autoFocus
-                        required
-                    />
-                    <br />
-                    <button className="btn btn-outline-primary" disabled={loading || name.length < 2}>Save</button>
-                </div>
-            </form>
-        )
-    }
-
     return (
         <div className="container-fluid">
             <div className="row">
@@ -83,7 +64,7 @@ function CategoryCreate() {
                 </div>
                 <div className="col">
                     <h4>Create Category</h4>
-                    {categoryForm()}
+                    <CategoryForm handleSubmit={handleSubmit} name={name} setName={setName} loading={loading} />
                     {
                         categories.map((category) => {
                             return (
