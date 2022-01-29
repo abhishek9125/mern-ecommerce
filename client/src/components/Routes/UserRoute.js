@@ -1,6 +1,7 @@
 import React from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import LoadingToRedirect from './LoadingToRedirect';
 import History from '../../pages/user/History';
 
 function UserRoute({ children, ...rest }) {
@@ -12,7 +13,7 @@ function UserRoute({ children, ...rest }) {
             <Route path="history" element={<History />} />
         </Routes>
     )  : ( 
-        <h1 className="text-danger" >Loading...</h1> 
+        <LoadingToRedirect />
     ) 
 }
 
