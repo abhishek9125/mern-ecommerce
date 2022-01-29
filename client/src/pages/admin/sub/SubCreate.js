@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import AdminNav from '../../../components/Navbar/AdminNav';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
-import { createCategory, getCategories, removeCategory } from '../../../functions/category';
+import { getCategories } from '../../../functions/category';
+import { createSub, getSubs, removeSub } from '../../../functions/sub';
 import { Link } from 'react-router-dom';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import CategoryForm from '../../../components/Forms/CategoryForm';
@@ -13,25 +14,31 @@ function SubCreate() {
     const [name, setName] = useState('');
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState([]);
+    const [subs, setSubs] = useState([]);
+    const [category, setCategory] = useState('');
     const [keyword, setKeyword] = useState('');
 
     const { user } = useSelector((state) => ({ ...state }));
 
     useEffect(async () => {
-        const response = await getCategories();
-        setCategories(response.data);
+        const categoryResponse = await getCategories();
+        setCategories(categoryResponse.data);
+
+        const subResponse = await getSubs();
+        setSubs(subResponse.data);
     },[])
 
+    console.log(`subs`, subs)
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
-        createCategory({ name }, user.token)
+        createSub({ name, parent: category }, user.token)
         .then(async (response) => {
             setLoading(false);
             setName('');
-            toast.success(`${response.data.name} Category Created Successfully..!!`);
-            const cateforyResponse = await getCategories();
-            setCategories(cateforyResponse.data);
+            toast.success(`${response.data.name} Sub Category Created Successfully..!!`);
+            const subResponse = await getSubs();
+            setSubs(subResponse.data);
         })
         .catch((error) => {
             setLoading(false);
@@ -40,15 +47,15 @@ function SubCreate() {
         });
     }
 
-    const handleRemoveCategory = async (slug) => {
+    const handleRemoveSub = async (slug) => {
         if(window.confirm('Delete this Category?')) {
             setLoading(true);
-            removeCategory(slug, user.token)
+            removeSub(slug, user.token)
             .then(async (response) => {
                 setLoading(false);
-                toast.error(`${response.data.name} Category Deleted Successfully..!!`);
-                const cateforyResponse = await getCategories();
-                setCategories(cateforyResponse.data);
+                toast.error(`${response.data.name} Category Sub Deleted Successfully..!!`);
+                const subResponse = await getSubs();
+                setSubs(subResponse.data);
             })
             .catch((error) => {
                 setLoading(false);
@@ -67,19 +74,42 @@ function SubCreate() {
                     <AdminNav />
                 </div>
                 <div className="col">
-                    <h4>Create Category</h4>
+                    <h4>Create Sub Category</h4>
+
+                    <div className="form-group">
+                        <label>Parent Category</label>
+                        <select
+                            name="category"
+                            className="form-control"
+                            onChange={(e) => setCategory(e.target.value)}
+                        >
+                            <option>Please select a Category</option>
+                            {
+                                categories.length > 0 &&
+                                categories.map((c) => {
+                                    return (
+                                        <option key={c._id} value={c._id}>
+                                            {c.name}
+                                        </option>
+                                    )
+                                })
+                            }
+
+                        </select>
+                    </div>
+
                     <CategoryForm handleSubmit={handleSubmit} name={name} setName={setName} loading={loading} />
                     <LocalSearch keyword={keyword} setKeyword={setKeyword} />
                     {
-                        categories.filter(searched(keyword)).map((category) => {
+                        subs.filter(searched(keyword)).map((sub) => {
                             return (
-                                <div key={category._id} className="alert alert-secondary">
-                                    {category.name}
-                                    <span className="btn btn-small float-right" onClick={() => handleRemoveCategory(category.slug)}>
+                                <div key={sub._id} className="alert alert-secondary">
+                                    {sub.name}
+                                    <span className="btn btn-small float-right" onClick={() => handleRemoveSub(sub.slug)}>
                                         <DeleteOutlined className="text-danger" />
                                     </span> 
                                     <span className="btn btn-small float-right">
-                                        <Link to={`/admin/category/${category.slug}`}>
+                                        <Link to={`/admin/sub/${sub.slug}`}>
                                             <EditOutlined className="text-warning" />
                                         </Link>
                                     </span> 
