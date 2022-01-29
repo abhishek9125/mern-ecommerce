@@ -6,6 +6,7 @@ import { createCategory, getCategories, removeCategory } from '../../../function
 import { Link } from 'react-router-dom';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import CategoryForm from '../../../components/Forms/CategoryForm';
+import LocalSearch from '../../../components/Forms/LocalSearch';
 
 function CategoryCreate() {
 
@@ -57,11 +58,6 @@ function CategoryCreate() {
         }
     }
 
-    const handleSearchChange = (e) => {
-        e.preventDefault();
-        setKeyword(e.target.value.toLowerCase());
-    }
-
     const searched = (keyword) => (item) => item.name.toLowerCase().includes(keyword);
 
     return (
@@ -73,13 +69,7 @@ function CategoryCreate() {
                 <div className="col">
                     <h4>Create Category</h4>
                     <CategoryForm handleSubmit={handleSubmit} name={name} setName={setName} loading={loading} />
-                    <input 
-                        type="search"
-                        placeholder="Filter Categories"
-                        value={keyword}
-                        onChange={handleSearchChange}
-                        className="form-control mb-4"
-                    />
+                    <LocalSearch keyword={keyword} setKeyword={setKeyword} />
                     {
                         categories.filter(searched(keyword)).map((category) => {
                             return (
