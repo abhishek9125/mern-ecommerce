@@ -8,6 +8,7 @@ import CategoryCreate from '../../pages/admin/category/CategoryCreate';
 import CategoryUpdate from '../../pages/admin/category/CategoryUpdate';
 import SubCreate from '../../pages/admin/sub/SubCreate';
 import SubUpdate from '../../pages/admin/sub/SubUpdate';
+import ProductCreate from '../../pages/admin/product/ProductCreate';
 
 function AdminRoute({ children, ...rest }) {
 
@@ -32,8 +33,9 @@ function AdminRoute({ children, ...rest }) {
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="category" element={<CategoryCreate />} />
             <Route path="category/:slug" element={<CategoryUpdate />} />
-            <Route path="sub/" element={<SubCreate />} />
+            <Route path="sub" element={<SubCreate />} />
             <Route path="sub/:slug" element={<SubUpdate />} />
+            <Route path="product" element={<ProductCreate />} />
         </Routes>
     )  : ( 
         <LoadingToRedirect />
