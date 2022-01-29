@@ -15,10 +15,10 @@ function AdminNav() {
                     <Link to="/admin/products" className="nav-link">View All Products</Link>
                 </li>
                 <li className="nav-item">
-                    <Link to="/admin/category" className="nav-link">Create New Category</Link>
+                    <Link to="/admin/category" className="nav-link">Category Section</Link>
                 </li>
                 <li className="nav-item">
-                    <Link to="/admin/subcategory" className="nav-link">Create New Sub Category</Link>
+                    <Link to="/admin/subcategory" className="nav-link">Sub Category Section</Link>
                 </li>
                 <li className="nav-item">
                     <Link to="/admin/coupon" className="nav-link">Create New Coupon</Link>

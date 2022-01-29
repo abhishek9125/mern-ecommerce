@@ -3,6 +3,8 @@ import AdminNav from '../../../components/Navbar/AdminNav';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { createCategory, getCategories, removeCategory } from '../../../functions/category';
+import { Link } from 'react-router-dom';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 function CategoryCreate() {
 
@@ -21,16 +23,36 @@ function CategoryCreate() {
         e.preventDefault();
         setLoading(true);
         createCategory({ name }, user.token)
-        .then((response) => {
+        .then(async (response) => {
             setLoading(false);
             setName('');
             toast.success(`${response.data.name} Category Created Successfully..!!`);
+            const cateforyResponse = await getCategories();
+            setCategories(cateforyResponse.data);
         })
         .catch((error) => {
             setLoading(false);
             if(error.response.status === 400) toast.error(error.response.data)
             console.log('Error Adding Category : ', error);
         });
+    }
+
+    const handleRemoveCategory = async (slug) => {
+        if(window.confirm('Delete this Category?')) {
+            setLoading(true);
+            removeCategory(slug, user.token)
+            .then(async (response) => {
+                setLoading(false);
+                toast.error(`${response.data.name} Category Deleted Successfully..!!`);
+                const cateforyResponse = await getCategories();
+                setCategories(cateforyResponse.data);
+            })
+            .catch((error) => {
+                setLoading(false);
+                if(error.response.status === 400) toast.error(error.response.data)
+                console.log('Error Deleting Category : ', error);
+            })
+        }
     }
 
     const categoryForm = () => {
@@ -62,6 +84,23 @@ function CategoryCreate() {
                 <div className="col">
                     <h4>Create Category</h4>
                     {categoryForm()}
+                    {
+                        categories.map((category) => {
+                            return (
+                                <div key={category._id} className="alert alert-secondary">
+                                    {category.name}
+                                    <span className="btn btn-small float-right" onClick={() => handleRemoveCategory(category.slug)}>
+                                        <DeleteOutlined className="text-danger" />
+                                    </span> 
+                                    <span className="btn btn-small float-right">
+                                        <Link to={`/admin/category/${category.slug}`}>
+                                            <EditOutlined className="text-warning" />
+                                        </Link>
+                                    </span> 
+                                </div>
+                            )
+                        })
+                    }
                 </div>
             </div>
         </div>
