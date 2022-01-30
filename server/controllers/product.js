@@ -86,3 +86,13 @@ exports.remove = async (req, res) => {
         return res.status(400).send('Error Deleting the Product');
     }
 }
+
+exports.productsCount = async (req, res) => {
+    try {
+        const total = Product.find({}).estimatedDocumentCount().exec();
+        res.json(total)
+    } catch (error) {
+        console.log('Error Getting Product Count: ', error);
+        return res.status(400).send('Error Getting Product Count');
+    }
+}
