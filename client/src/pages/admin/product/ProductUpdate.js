@@ -32,6 +32,8 @@ function ProductUpdate() {
     const [categories, setCategories] = useState([]);
     const [subCategoryIds, setSubCategoryIds] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("");
+    const [loading, setLoading] = useState(false);
+
     const { user } = useSelector((state) => ({ ...state }));
     const { slug } = useParams();
 
@@ -104,6 +106,9 @@ function ProductUpdate() {
                 <div className="col-md-10">
                     <h4>Update Product</h4>
                     <hr />
+                    <div className="p-3">
+                        <FileUpload loading={loading} setLoading={setLoading} setValues={setValues} values={values} />
+                    </div>
                     <ProductUpdateForm 
                         values={values} 
                         setValues={setValues}
