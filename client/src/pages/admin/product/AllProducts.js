@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 import AdminProductCard from '../../../components/Cards/AdminProductCard';
 import AdminNav from '../../../components/Navbar/AdminNav';
 import { getProductsByCount } from '../../../functions/product';
 import { LoadingOutlined } from '@ant-design/icons'
+import { removeProduct } from '../../../functions/product';
 
 function AllProducts() {
 
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    const { user } = useSelector((state) => ({ ...state }));
 
     useEffect(() => {
         loadAllProducts();
@@ -26,6 +31,23 @@ function AllProducts() {
         })
     }
 
+    const handleRemoveProduct = (slug) => {
+        if(window.confirm('Delete this Product?')) {
+            setLoading(true);
+            removeProduct(slug, user.token)
+            .then((response) => {
+                setLoading(false);
+                loadAllProducts();
+                toast.success(`${response.data.title} is Deleted Successfully.`)
+            })
+            .catch((error) => {
+                setLoading(false);
+                if(error.response.status === 400) toast.error(error.response.data)
+                console.log('Error Deleting Product : ', error);
+            })
+        }
+    }
+
     return (
         <div className="container-fluid">
             <div className="row">
@@ -42,7 +64,10 @@ function AllProducts() {
                             products.map((product) => {
                                 return (
                                     <div className="col-md-4" key={product._id}>
-                                        <AdminProductCard product={product} />
+                                        <AdminProductCard 
+                                            product={product} 
+                                            handleRemoveProduct={handleRemoveProduct}
+                                        />
                                     </div>
                                 )
                             })
