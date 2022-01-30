@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const { create, read } = require('../controllers/product');
+const { create, listAll } = require('../controllers/product');
 
 const { authCheck, adminCheck } = require('../middlewares/auth');
 
 router.post('/product', authCheck, adminCheck, create);
-router.get('/products', read);
+router.get('/products/:count', listAll);
 
 module.exports = router;
