@@ -92,7 +92,7 @@ exports.remove = async (req, res) => {
 
 exports.productsCount = async (req, res) => {
     try {
-        const total = Product.find({}).estimatedDocumentCount().exec();
+        const total = await Product.find({}).estimatedDocumentCount().exec();
         res.json(total)
     } catch (error) {
         console.log('Error Getting Product Count: ', error);

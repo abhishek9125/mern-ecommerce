@@ -14,8 +14,12 @@ export const getProduct = async (slug) => {
     return await axios.get(`${process.env.REACT_APP_API}/product/${slug}`);
 }
 
-export const getProducts = async (sort, order, limit) => {
-    return await axios.post(`${process.env.REACT_APP_API}/products/`, { sort, order, limit });
+export const getProductsCount = async () => {
+    return await axios.get(`${process.env.REACT_APP_API}/product/total`);
+}
+
+export const getProducts = async (sort, order, page) => {
+    return await axios.post(`${process.env.REACT_APP_API}/products/`, { sort, order, page });
 }
 
 export const updateProduct = async (slug, product, authToken) => {

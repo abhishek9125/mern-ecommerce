@@ -1,20 +1,33 @@
 import React, { useState, useEffect } from 'react';
+import { Pagination } from 'antd';
 import LoadingCard from '../Cards/LoadingCard';
 import ProductCard from '../Cards/ProductCard';
-import { getProducts } from '../../functions/product';
+import { getProducts, getProductsCount } from '../../functions/product';
 
 function NewArrivals() {
 
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [productsCount, setProductsCount] = useState(0);
+    const [page, setPage] = useState(1);
 
     useEffect(() => {
         loadAllProducts();
+    }, [page])
+
+    useEffect(() => {
+        getProductsCount()
+        .then((response) => {
+            setProductsCount(response.data);
+        })
+        .catch((error) => {
+            console.log('Error Fetching Product Count : ', error);
+        })
     }, [])
 
     const loadAllProducts = () => {
         setLoading(true);
-        getProducts('createdAt', 'desc', 3)
+        getProducts('createdAt', 'desc', page)
         .then((response) => {
             setProducts(response.data);
         })
@@ -41,6 +54,15 @@ function NewArrivals() {
                             )
                         })
                     }
+                </div>
+                <div className="row">
+                    <nav className="col-md-4 offset-md-4 text-center pt-3 p-3">
+                        <Pagination 
+                            current={page}
+                            total={Math.ceil((productsCount/3)) * 10}
+                            onChange={(value) => {setPage(value); console.log(value)}}
+                        />
+                    </nav>
                 </div>
             </div>
         </>
