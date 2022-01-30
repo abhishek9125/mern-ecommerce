@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Jumbotron from '../components/Cards/Jumbotron';
 import ProductCard from '../components/Cards/ProductCard';
 import { getProductsByCount } from '../functions/product';
 
@@ -22,8 +23,10 @@ function Home() {
 
     return (
         <>
-            <div className="jumbotron">
-                All Products
+            <div className="jumbotron text-center font-weight-bold text-danger h1">
+                <Jumbotron 
+                    text={['Latest Products', 'Best Sellers', 'New Arrivals']}
+                />
             </div>
             <div className="container">
                 <div className="row">
