@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { createProduct } from '../../../functions/product';
 import ProductCreateForm from '../../../components/Forms/ProductCreateForm';
+import { getCategories } from '../../../functions/category';
 
 const initialState = {
     title: "MacBook Pro Air",
@@ -24,7 +25,13 @@ const initialState = {
 function ProductCreate() {
 
     const [values, setValues] = useState(initialState);
+
     const { user } = useSelector((state) => ({ ...state }));
+
+    useEffect(async () => {
+        const categoryResponse = await getCategories();
+        setValues({ ...values, categories: categoryResponse.data });
+    },[])
 
     const handleSubmit = (e) => {
         e.preventDefault();

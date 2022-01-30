@@ -105,6 +105,28 @@ function ProductCreateForm({ handleSubmit, handleChange, values }) {
                 </select>
             </div>
 
+            <div className="form-group">
+                <label>Select Category</label>
+                <select
+                    name="category"
+                    className="form-control"
+                    onChange={handleChange}
+                >
+                    <option value=''>Please select a Category</option>
+                    {
+                        categories.length > 0 &&
+                        categories.map((c) => {
+                            return (
+                                <option key={c._id} value={c._id}>
+                                    {c.name}
+                                </option>
+                            )
+                        })
+                    }
+
+                </select>
+            </div>
+
             <button className="btn btn-outline-info">
                 Save Product
             </button>
