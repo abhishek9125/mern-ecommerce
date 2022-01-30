@@ -68,8 +68,6 @@ function ProductCreate() {
         setShowSub(true);
     }
 
-    console.log(`values`, values)
-
     return (
         <div className="container-fluid">
             <div className="row">
@@ -80,7 +78,7 @@ function ProductCreate() {
                     <h4>Create Product</h4>
                     <hr />
                     <div className="p-3">
-                        <FileUpload setLoading={setLoading} setValues={setValues} values={values} />
+                        <FileUpload loading={loading} setLoading={setLoading} setValues={setValues} values={values} />
                     </div>
                     <ProductCreateForm 
                         values={values} 
