@@ -50,8 +50,8 @@ function ProductUpdateForm({ handleSubmit, handleChange, values, setValues }) {
                     name="shipping"
                     className="form-control"
                     onChange={handleChange}
+                    value={shipping}
                 >   
-                    <option value="">Please Select</option>
                     <option value="No">No</option>
                     <option value="Yes">Yes</option>
                 </select>
@@ -74,8 +74,8 @@ function ProductUpdateForm({ handleSubmit, handleChange, values, setValues }) {
                     name="color"
                     className="form-control"
                     onChange={handleChange}
+                    value={color}
                 >   
-                    <option key="" value="">Please Select</option>
                     {
                         colors.map((c) => {
                             return (
@@ -94,8 +94,8 @@ function ProductUpdateForm({ handleSubmit, handleChange, values, setValues }) {
                     name="brand"
                     className="form-control"
                     onChange={handleChange}
+                    value={brand}
                 >   
-                    <option key="" value="">Please Select</option>
                     {
                         brands.map((b) => {
                             return (
