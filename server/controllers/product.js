@@ -44,6 +44,21 @@ exports.listAll = async (req, res) => {
     }
 }
 
+exports.update = async (req, res) => {
+    try {
+        if(req.body.title) {
+            req.body.slug = slugify(req.body.title);
+        }
+        const updatedProduct = await Product.findOneAndUpdate({ slug: req.params.slug }, req.body, { new: true }).exec();
+        return res.json(updatedProduct);
+    } catch (error) {
+        console.log('Error Updating Product : ', error);
+        res.status(400).json({
+            error: error.message
+        })
+    }
+}
+
 exports.remove = async (req, res) => {
     try {
         const deletedProduct = await Product.findOneAndRemove({ slug: req.params.slug }).exec();
