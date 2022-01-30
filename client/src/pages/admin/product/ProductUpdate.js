@@ -4,12 +4,46 @@ import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { createProduct } from '../../../functions/product';
 import ProductCreateForm from '../../../components/Forms/ProductCreateForm';
-import { getCategories, getCategorySubs } from '../../../functions/category';
+import { getProduct } from '../../../functions/product';
 import FileUpload from '../../../components/Forms/FileUpload';
+import { useNavigate, useParams } from "react-router-dom";
+
+const initialState = {
+    title: "",
+    description: "",
+    price: "",
+    categories: [],
+    category: "",
+    subs: [],
+    shipping: "",
+    quantity: "",
+    images: [],
+    colors: ['Black', 'Brown', 'Silver', 'White', 'Blue'],
+    brands: ['Apple', 'Sony', 'Lenovo', 'Microsoft', 'Sony', 'Samsung', 'Asus'],
+    color: "",
+    brand: ""
+}
+
 
 function ProductUpdate() {
 
+    const [values, setValues] = useState(initialState);
     const { user } = useSelector((state) => ({ ...state }));
+    const { slug } = useParams();
+
+    useEffect(() => {
+        loadProduct(); 
+    }, [])
+
+    const loadProduct = () => {
+        getProduct(slug)
+        .then((response) => {
+            setValues({ ...values, ...response.data });
+        })
+        .catch((error) => {
+            console.log('Error Fetching Product : ', error);
+        })
+    }
 
     return (
         <div className="container-fluid">

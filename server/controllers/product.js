@@ -14,13 +14,16 @@ exports.create = async (req, res) => {
     }
 }
 
-exports.remove = async (req, res) => {
+exports.read = async (req, res) => {
     try {
-        const deletedProduct = await Product.findOneAndRemove({ slug: req.params.slug }).exec();
-        res.json(deletedProduct);
+        const product = await Product.findOne({ slug: req.params.slug })
+        .populate('category')
+        .populate('subs')
+        .exec();
+        res.json(product);
     } catch (error) {
-        console.log('Error Creating New Product : ', error);
-        return res.status(400).send('Error Deleting the Product');
+        console.log('Error Fetching Product : ', error);
+        res.status(400).send('Error Fetching Product');
     }
 }
 
@@ -38,5 +41,15 @@ exports.listAll = async (req, res) => {
         res.status(400).json({
             error: error.message
         })
+    }
+}
+
+exports.remove = async (req, res) => {
+    try {
+        const deletedProduct = await Product.findOneAndRemove({ slug: req.params.slug }).exec();
+        res.json(deletedProduct);
+    } catch (error) {
+        console.log('Error Creating New Product : ', error);
+        return res.status(400).send('Error Deleting the Product');
     }
 }
