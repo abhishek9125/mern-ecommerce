@@ -10,19 +10,19 @@ import CategoryForm from '../../../components/Forms/CategoryForm';
 import LocalSearch from '../../../components/Forms/LocalSearch';
 
 const initialState = {
-    title: "",
-    description: "",
-    price: "",
+    title: "MacBook Pro Air",
+    description: "Apple has the best collection.",
+    price: "150000",
     categories: [],
     category: "",
     subs: [],
-    shipping: "",
-    quantity: "",
+    shipping: "Yes",
+    quantity: "200",
     images: [],
     colors: ['Black', 'Brown', 'Silver', 'White', 'Blue'],
     brands: ['Apple', 'Sony', 'Lenovo', 'Microsoft', 'Sony', 'Samsung', 'Asus'],
-    color: "",
-    brand: ""
+    color: "Silver",
+    brand: "Apple"
 }
 
 function ProductCreate() {
@@ -35,11 +35,12 @@ function ProductCreate() {
         e.preventDefault();
         createProduct(values, user.token)
         .then((response) => {
-            console.log(`response`, response)
+            toast.success(`${response.data.title} is Created Successfully`);
+            setValues(initialState);
         })
         .catch((error) => {
             console.log('Error Creating a New Product : ', error);
-            if(error.response.status === 400) toast.error(error.response.data)
+            toast.error(error.response.data.error);
         })
     }
 
@@ -122,7 +123,7 @@ function ProductCreate() {
                                 className="form-control"
                                 onChange={handleChange}
                             >   
-                                <option value="">Please Select</option>
+                                <option key="" value="">Please Select</option>
                                 {
                                     colors.map((c) => {
                                         return (
@@ -142,7 +143,7 @@ function ProductCreate() {
                                 className="form-control"
                                 onChange={handleChange}
                             >   
-                                <option value="">Please Select</option>
+                                <option key="" value="">Please Select</option>
                                 {
                                     brands.map((b) => {
                                         return (

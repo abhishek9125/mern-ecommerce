@@ -8,6 +8,20 @@ exports.create = async (req, res) => {
         res.json(newProduct);
     } catch (error) {
         console.log('Error Creating New Product : ', error);
-        res.status(400).send('Error Creating Product');
+        res.status(400).json({
+            error: error.message
+        })
+    }
+}
+
+exports.read = async (req, res) => {
+    try {
+        let products = await Product.find({});
+        res.json(products);
+    } catch(error) {
+        console.log('Error Fetching Product List: ', error);
+        res.status(400).json({
+            error: error.message
+        })
     }
 }
