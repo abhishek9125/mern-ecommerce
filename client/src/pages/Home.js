@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Jumbotron from '../components/Cards/Jumbotron';
+import LoadingCard from '../components/Cards/LoadingCard';
 import ProductCard from '../components/Cards/ProductCard';
 import { getProductsByCount } from '../functions/product';
 
@@ -31,10 +32,15 @@ function Home() {
             <div className="container">
                 <div className="row">
                     {
+  
                         products.map((product) => {
                             return (
                                 <div className="col-md-4" key={product._id}>
-                                    <ProductCard product={product} />
+                                    {
+                                        loading ?
+                                        <LoadingCard /> : 
+                                        <ProductCard product={product} />
+                                    }
                                 </div>
                             )
                         })
