@@ -1,6 +1,9 @@
-import React from 'react'
+import React from 'react';
+import { Select } from 'antd';
 
-function ProductCreateForm({ handleSubmit, handleChange, values }) {
+const { Option } = Select;
+
+function ProductCreateForm({ handleSubmit, handleChange, values, handleCategoryChange, showSub, subOptions, setValues }) {
 
     const { title, description, price, categories, category, subs, shipping, quantity, images, colors, brands, color, brand } = values;
 
@@ -110,7 +113,7 @@ function ProductCreateForm({ handleSubmit, handleChange, values }) {
                 <select
                     name="category"
                     className="form-control"
-                    onChange={handleChange}
+                    onChange={handleCategoryChange}
                 >
                     <option value=''>Please select a Category</option>
                     {
@@ -126,6 +129,30 @@ function ProductCreateForm({ handleSubmit, handleChange, values }) {
 
                 </select>
             </div>
+            { showSub &&
+                <div className="form-group">
+                    <label>Select Sub Categories</label>
+                    <Select
+                        mode="multiple"
+                        style={{ width: '100%' }}
+                        placeholder="Select List of Sub Categories"
+                        value={subs}
+                        onChange={(value) => setValues({ ...values, subs: value })}
+                    >
+                        {
+                            subOptions.length &&
+                            subOptions.map((s) => {
+                                return (
+                                    <Option key={s._id} value={s._id}>
+                                        {s.name}
+                                    </Option>
+                                )
+                            }) 
+                        }
+                    </Select>
+                </div>
+            }
+            <br />
 
             <button className="btn btn-outline-info">
                 Save Product

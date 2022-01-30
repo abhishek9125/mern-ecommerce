@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { createProduct } from '../../../functions/product';
 import ProductCreateForm from '../../../components/Forms/ProductCreateForm';
-import { getCategories } from '../../../functions/category';
+import { getCategories, getCategorySubs } from '../../../functions/category';
 
 const initialState = {
     title: "MacBook Pro Air",
@@ -25,6 +25,8 @@ const initialState = {
 function ProductCreate() {
 
     const [values, setValues] = useState(initialState);
+    const [subOptions, setSubOptions] = useState([]);
+    const [showSub, setShowSub] = useState(false);
 
     const { user } = useSelector((state) => ({ ...state }));
 
@@ -47,7 +49,21 @@ function ProductCreate() {
     }
 
     const handleChange = (e) => {
-        setValues({ ...values, [e.target.name] : e.target.value });
+        setValues({ ...values, [e.target.name]: e.target.value });
+    }
+
+    const handleCategoryChange = (e) => {
+        e.preventDefault();
+        setValues({ ...values, subs: [], category: e.target.value });
+        getCategorySubs(e.target.value)
+        .then((response) => {
+            setSubOptions(response.data)
+        })
+        .catch((error) => {
+            console.log('Error Fetching Sub Category List : ', error);
+            toast.error('Error Fetching Sub Category List');
+        });
+        setShowSub(true);
     }
 
     return (
@@ -59,7 +75,15 @@ function ProductCreate() {
                 <div className="col-md-10">
                     <h4>Create Product</h4>
                     <hr />
-                    <ProductCreateForm handleChange={handleChange} handleSubmit={handleSubmit} values={values} />
+                    <ProductCreateForm 
+                        values={values} 
+                        setValues={setValues}
+                        showSub={showSub}
+                        subOptions={subOptions}
+                        handleSubmit={handleSubmit} 
+                        handleChange={handleChange} 
+                        handleCategoryChange={handleCategoryChange}
+                    />
                 </div>
             </div>
         </div>

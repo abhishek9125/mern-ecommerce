@@ -25,3 +25,7 @@ export const removeCategory = async (slug, authToken) => {
         headers: { authToken }
     });
 }
+
+export const getCategorySubs = async (_id) => {
+    return await axios.get(`${process.env.REACT_APP_API}/category/subs/${_id}`);
+}

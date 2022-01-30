@@ -1,4 +1,5 @@
 const Category = require('../models/category');
+const Sub = require('../models/sub');
 const slugify = require('slugify');
 
 exports.create = async (req, res) => {
@@ -50,5 +51,15 @@ exports.remove = async (req, res) => {
     } catch (error) {
         console.log('Error Deleting Category : ', error);
         res.status(400).send('Error Deleting Category');
+    }
+}
+
+exports.getSubs = async (req, res) => {
+    try {
+        const subList = await Sub.find({ parent: req.params._id }).exec();
+        res.json(subList);
+    } catch(error) {
+        console.log('Error Fetching Sub Category List : ', error);
+        res.status(400).send('Error Fetching Sub Category List');
     }
 }
