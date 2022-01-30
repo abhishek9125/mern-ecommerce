@@ -8,5 +8,4 @@ const { authCheck, adminCheck } = require('../middlewares/auth');
 router.post('/uploadimages', authCheck, adminCheck, upload);
 router.post('/removeimage', authCheck, adminCheck, remove);
 
-
 module.exports = router;
