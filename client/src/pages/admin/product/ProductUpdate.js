@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react';
 import AdminNav from '../../../components/Navbar/AdminNav';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
-import { createProduct } from '../../../functions/product';
 import ProductCreateForm from '../../../components/Forms/ProductCreateForm';
 import { getProduct } from '../../../functions/product';
 import FileUpload from '../../../components/Forms/FileUpload';
 import { useNavigate, useParams } from "react-router-dom";
 import ProductUpdateForm from '../../../components/Forms/ProductUpdateForm';
+import { getCategories, getCategorySubs } from '../../../functions/category';
+
 
 const initialState = {
     title: "",
     description: "",
     price: "",
-    categories: [],
     category: "",
     subs: [],
     shipping: "",
@@ -28,11 +28,15 @@ const initialState = {
 function ProductUpdate() {
 
     const [values, setValues] = useState(initialState);
+    const [subOptions, setSubOptions] = useState([]);
+    const [categories, setCategories] = useState([]);
+
     const { user } = useSelector((state) => ({ ...state }));
     const { slug } = useParams();
 
     useEffect(() => {
         loadProduct(); 
+        loadCategories();
     }, [])
 
     const loadProduct = () => {
@@ -45,11 +49,34 @@ function ProductUpdate() {
         })
     }
 
+    const loadCategories = () => {
+        getCategories()
+        .then((response) => {
+            setCategories(response.data);
+        })
+        .catch((error) => {
+            console.log('Error Fetching Category List : ', error);
+        })
+    }
+
     const handleSubmit = (e) => {
     }
 
     const handleChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
+    }
+
+    const handleCategoryChange = (e) => {
+        e.preventDefault();
+        setValues({ ...values, subs: [], category: e.target.value });
+        getCategorySubs(e.target.value)
+        .then((response) => {
+            setSubOptions(response.data)
+        })
+        .catch((error) => {
+            console.log('Error Fetching Sub Category List : ', error);
+            toast.error('Error Fetching Sub Category List');
+        });
     }
 
     return (
@@ -64,8 +91,11 @@ function ProductUpdate() {
                     <ProductUpdateForm 
                         values={values} 
                         setValues={setValues}
+                        categories={categories}
+                        subOptions={subOptions}
                         handleSubmit={handleSubmit} 
                         handleChange={handleChange} 
+                        handleCategoryChange={handleCategoryChange}
                     />
                 </div>
             </div>
