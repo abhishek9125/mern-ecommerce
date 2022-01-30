@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Jumbotron from '../components/Cards/Jumbotron';
+import BestSellers from '../components/Home/BestSellers';
 import NewArrivals from '../components/Home/NewArrivals';
 
 function Home() {
@@ -12,6 +13,7 @@ function Home() {
                 />
             </div>
             <NewArrivals />
+            <BestSellers />
             <br />
             <br />
         </>

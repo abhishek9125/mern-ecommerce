@@ -3,7 +3,7 @@ import LoadingCard from '../Cards/LoadingCard';
 import ProductCard from '../Cards/ProductCard';
 import { getProducts } from '../../functions/product';
 
-function NewArrivals() {
+function BestSellers() {
 
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -14,7 +14,7 @@ function NewArrivals() {
 
     const loadAllProducts = () => {
         setLoading(true);
-        getProducts('createdAt', 'desc', 3)
+        getProducts('sold', 'desc', 3)
         .then((response) => {
             setProducts(response.data);
         })
@@ -24,7 +24,7 @@ function NewArrivals() {
     return (
         <>
             <h4 className="text-center p-3 mt-5 mb-5 display-4 jumbotron">
-                New Arrivals
+                Best Sellers
             </h4>
             <div className="container">
                 <div className="row">
@@ -47,4 +47,4 @@ function NewArrivals() {
     )
 }
 
-export default NewArrivals;
+export default BestSellers;
