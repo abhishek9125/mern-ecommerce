@@ -31,6 +31,7 @@ function ProductUpdate() {
     const [subOptions, setSubOptions] = useState([]);
     const [categories, setCategories] = useState([]);
     const [subCategoryIds, setSubCategoryIds] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState("");
     const { user } = useSelector((state) => ({ ...state }));
     const { slug } = useParams();
 
@@ -77,7 +78,8 @@ function ProductUpdate() {
 
     const handleCategoryChange = (e) => {
         e.preventDefault();
-        setValues({ ...values, subs: [], category: e.target.value });
+        setValues({ ...values, subs: [] });
+        setSelectedCategory(e.target.value);
         getCategorySubs(e.target.value)
         .then((response) => {
             setSubOptions(response.data)
@@ -86,6 +88,11 @@ function ProductUpdate() {
             console.log('Error Fetching Sub Category List : ', error);
             toast.error('Error Fetching Sub Category List');
         });
+        if(values.category._id === e.target.value) {
+            loadProduct();
+        } else {
+            setSubCategoryIds([]);
+        }
     }
 
     return (
@@ -106,6 +113,7 @@ function ProductUpdate() {
                         handleChange={handleChange} 
                         subCategoryIds={subCategoryIds}
                         setSubCategoryIds={setSubCategoryIds}
+                        selectedCategory={selectedCategory}
                         handleCategoryChange={handleCategoryChange}
                     />
                 </div>

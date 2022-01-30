@@ -3,7 +3,7 @@ import { Select } from 'antd';
 
 const { Option } = Select;
 
-function ProductUpdateForm({ handleSubmit, handleChange, handleCategoryChange, values, setValues, categories, subOptions, subCategoryIds, setSubCategoryIds }) {
+function ProductUpdateForm({ handleSubmit, handleChange, handleCategoryChange, values, setValues, categories, subOptions, subCategoryIds, setSubCategoryIds, selectedCategory }) {
     const { title, description, price, category, subs, shipping, quantity, images, colors, brands, color, brand } = values;
     return (
         <form onSubmit={handleSubmit}>
@@ -112,7 +112,7 @@ function ProductUpdateForm({ handleSubmit, handleChange, handleCategoryChange, v
                     name="category"
                     className="form-control"
                     onChange={handleCategoryChange}
-                    value={category._id}
+                    value={selectedCategory ? selectedCategory : category._id}
                 >
                     {!category && <option value=''>Please select a Category</option>}
                     {
