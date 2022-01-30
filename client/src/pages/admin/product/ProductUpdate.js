@@ -9,7 +9,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import ProductUpdateForm from '../../../components/Forms/ProductUpdateForm';
 import { getCategories, getCategorySubs } from '../../../functions/category';
 
-
 const initialState = {
     title: "",
     description: "",
