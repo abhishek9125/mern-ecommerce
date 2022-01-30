@@ -7,6 +7,7 @@ import ProductCreateForm from '../../../components/Forms/ProductCreateForm';
 import { getProduct } from '../../../functions/product';
 import FileUpload from '../../../components/Forms/FileUpload';
 import { useNavigate, useParams } from "react-router-dom";
+import ProductUpdateForm from '../../../components/Forms/ProductUpdateForm';
 
 const initialState = {
     title: "",
@@ -23,7 +24,6 @@ const initialState = {
     color: "",
     brand: ""
 }
-
 
 function ProductUpdate() {
 
@@ -45,6 +45,13 @@ function ProductUpdate() {
         })
     }
 
+    const handleSubmit = (e) => {
+    }
+
+    const handleChange = (e) => {
+        setValues({ ...values, [e.target.name]: e.target.value });
+    }
+
     return (
         <div className="container-fluid">
             <div className="row">
@@ -54,6 +61,12 @@ function ProductUpdate() {
                 <div className="col-md-10">
                     <h4>Update Product</h4>
                     <hr />
+                    <ProductUpdateForm 
+                        values={values} 
+                        setValues={setValues}
+                        handleSubmit={handleSubmit} 
+                        handleChange={handleChange} 
+                    />
                 </div>
             </div>
         </div>
