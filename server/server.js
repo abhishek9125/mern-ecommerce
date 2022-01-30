@@ -17,7 +17,7 @@ mongoose
 
 // Middlewares
 app.use(morgan('dev'));
-app.use(bodyParser.json({ kmit: '2mb' }));
+app.use(bodyParser.json({ limit: '4mb' }));
 app.use(cors());
 
 // Routes

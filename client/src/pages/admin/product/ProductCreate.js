@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { createProduct } from '../../../functions/product';
 import ProductCreateForm from '../../../components/Forms/ProductCreateForm';
 import { getCategories, getCategorySubs } from '../../../functions/category';
+import FileUpload from '../../../components/Forms/FileUpload';
 
 const initialState = {
     title: "MacBook Pro Air",
@@ -27,6 +28,7 @@ function ProductCreate() {
     const [values, setValues] = useState(initialState);
     const [subOptions, setSubOptions] = useState([]);
     const [showSub, setShowSub] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const { user } = useSelector((state) => ({ ...state }));
 
@@ -66,6 +68,8 @@ function ProductCreate() {
         setShowSub(true);
     }
 
+    console.log(`values`, values)
+
     return (
         <div className="container-fluid">
             <div className="row">
@@ -75,6 +79,9 @@ function ProductCreate() {
                 <div className="col-md-10">
                     <h4>Create Product</h4>
                     <hr />
+                    <div className="p-3">
+                        <FileUpload setLoading={setLoading} setValues={setValues} values={values} />
+                    </div>
                     <ProductCreateForm 
                         values={values} 
                         setValues={setValues}
