@@ -3,8 +3,7 @@ import { Select } from 'antd';
 
 const { Option } = Select;
 
-function ProductUpdateForm({ handleSubmit, handleChange, handleCategoryChange, values, setValues, categories, subOptions }) {
-
+function ProductUpdateForm({ handleSubmit, handleChange, handleCategoryChange, values, setValues, categories, subOptions, subCategoryIds, setSubCategoryIds }) {
     const { title, description, price, category, subs, shipping, quantity, images, colors, brands, color, brand } = values;
     return (
         <form onSubmit={handleSubmit}>
@@ -128,6 +127,31 @@ function ProductUpdateForm({ handleSubmit, handleChange, handleCategoryChange, v
                     }
 
                 </select>
+            </div>
+
+            <div>
+                <label>Select Sub Categories</label>
+                {
+                    <Select
+                        mode="multiple"
+                        style={{ width: '100%' }}
+                        placeholder="Please Select"
+                        value={subCategoryIds}
+                        onChange={(value) => setSubCategoryIds(value)}
+                    >
+                        {
+                            subOptions.length &&
+                            subOptions.map((s) => {
+                                return (
+                                    <Option value={s._id} key={s._id}>
+                                        {s.name}
+                                    </Option>
+                                )
+                            })
+                        }
+
+                    </Select>
+                }
             </div>
 
             <br />

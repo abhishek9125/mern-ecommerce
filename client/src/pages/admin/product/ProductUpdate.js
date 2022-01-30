@@ -30,7 +30,7 @@ function ProductUpdate() {
     const [values, setValues] = useState(initialState);
     const [subOptions, setSubOptions] = useState([]);
     const [categories, setCategories] = useState([]);
-
+    const [subCategoryIds, setSubCategoryIds] = useState([]);
     const { user } = useSelector((state) => ({ ...state }));
     const { slug } = useParams();
 
@@ -43,6 +43,15 @@ function ProductUpdate() {
         getProduct(slug)
         .then((response) => {
             setValues({ ...values, ...response.data });
+            getCategorySubs(response.data.category._id)
+            .then((subResponse) => {
+                setSubOptions(subResponse.data);
+            })
+            let subCategoryIdArray = [];
+            response.data.subs.map((s) => {
+                subCategoryIdArray.push(s._id);
+            })
+            setSubCategoryIds(subCategoryIdArray);
         })
         .catch((error) => {
             console.log('Error Fetching Product : ', error);
@@ -95,6 +104,8 @@ function ProductUpdate() {
                         subOptions={subOptions}
                         handleSubmit={handleSubmit} 
                         handleChange={handleChange} 
+                        subCategoryIds={subCategoryIds}
+                        setSubCategoryIds={setSubCategoryIds}
                         handleCategoryChange={handleCategoryChange}
                     />
                 </div>
