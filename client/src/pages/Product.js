@@ -5,7 +5,7 @@ import SingleProduct from '../components/Cards/SingleProduct';
 
 function Product() {
 
-    const [product, setProduct] = useState({});
+    const [product, setProduct] = useState(null);
 
     const navigate = useNavigate();
     const { slug } = useParams();
@@ -27,7 +27,7 @@ function Product() {
     return (
         <div className="container-fluid">
             <div className="row pt-4">
-                <SingleProduct product={product} />
+                {product && <SingleProduct product={product} />}
             </div>
         </div>
     )

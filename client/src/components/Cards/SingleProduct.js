@@ -5,12 +5,11 @@ import { Carousel } from 'react-responsive-carousel';
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import laptop from '../../images/laptop.png';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-
-const { Meta } = Card;
+import ProductListItems from './ProductListItems';
 
 function SingleProduct({ product }) {
 
-    const { title, description, slug, images } = product;
+    const { title, images } = product;
 
     return (
         <>
@@ -39,6 +38,7 @@ function SingleProduct({ product }) {
             </div>
             
             <div className="col-md-5">
+                <h1 className="bg-info p-3">{title}</h1>
                 <Card
                     actions={[ 
                         <>
@@ -47,12 +47,9 @@ function SingleProduct({ product }) {
                         <>
                             <HeartOutlined className="text-danger" /> <br /> Add To Wishlist
                         </>
-                        // <Link to={`/product/${slug}`}>
-                        //     <EyeOutlined className="text-warning" /> <br /> View Product
-                        // </Link>,
                     ]}
                 >
-                    <Meta title={title} description={description} />
+                    <ProductListItems product={product} />
                 </Card>
             </div>
         </>
