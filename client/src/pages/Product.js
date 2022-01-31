@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { getProduct } from '../functions/product';
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import { getProduct, productStar } from '../functions/product';
 import SingleProduct from '../components/Cards/SingleProduct';
 
 function Product() {
 
     const [product, setProduct] = useState(null);
     const [star, setStar] = useState(0);
-    
+
+    const { user } = useSelector((state) => ({ ...state }));
     const navigate = useNavigate();
     const { slug } = useParams();
 
     useEffect(() => {
         loadSingleProduct();
     }, [slug])
+
+    useEffect(() => {
+        if(product && product.ratings && user) {
+            let existingRatingObject = product.ratings.find((item) => item.postedBy.toString() === user._id.toString());
+            existingRatingObject && setStar(existingRatingObject.star);
+        }
+    }, [product, user])
 
     const loadSingleProduct = () => {
         getProduct(slug)
@@ -27,6 +36,7 @@ function Product() {
 
     const onStarClick = (newRating, name) => {
         setStar(newRating);
+        productStar(name, newRating, user.token).then((response) => {})
     }
 
     return (

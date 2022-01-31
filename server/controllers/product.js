@@ -116,7 +116,7 @@ exports.productStar = async (req, res) => {
             ).exec();
             res.json(ratingAdded)
         } else {
-            let ratingUpload = await Product.updateOne({ ratings: { $elemMatch: existingRatingObject } },
+            let ratingUpload = await Product.updateOne({ slug: product.slug, ratings: { $elemMatch: existingRatingObject } },
                 { $set: { "ratings.$.star": star } },
                 { new: true }
             ).exec();
