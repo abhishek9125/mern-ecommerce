@@ -27,7 +27,7 @@ exports.list = async (req, res) => {
 exports.read = async (req, res) => {
     try {
         const category = await Category.findOne({ slug: req.params.slug }).exec();
-        const products = await Product.find({ categpry })
+        const products = await Product.find({ category })
         .populate('category')
         .populate('subs')
         .exec();
