@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import AdminNav from '../../../components/Navbar/AdminNav';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
-import ProductCreateForm from '../../../components/Forms/ProductCreateForm';
 import { getProduct, updateProduct } from '../../../functions/product';
 import FileUpload from '../../../components/Forms/FileUpload';
 import { useNavigate, useParams } from "react-router-dom";

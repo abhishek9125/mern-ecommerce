@@ -13,6 +13,7 @@ import AdminRoute from "./components/Routes/AdminRoute";
 import Header from "./components/Navbar/Header";
 import { currentUser } from './functions/auth';
 import 'react-toastify/dist/ReactToastify.css';
+import Product from "./pages/Product";
  
 function App() {
 
@@ -47,6 +48,7 @@ function App() {
       <ToastContainer />
       <Routes>
         <Route exact path="/" element={<Home />} />
+        <Route exact path="/product/:slug" element={<Product />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />  
         <Route exact path="/register/complete" element={<RegisterComplete />} />  
