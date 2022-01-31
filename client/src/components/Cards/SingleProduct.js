@@ -1,15 +1,16 @@
 import React from 'react';
-import { Card } from 'antd';
-import { Link } from 'react-router-dom';
+import { Card, Tabs } from 'antd';
 import { Carousel } from 'react-responsive-carousel';
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import laptop from '../../images/laptop.png';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import ProductListItems from './ProductListItems';
 
+const { TabPane } = Tabs;
+
 function SingleProduct({ product }) {
 
-    const { title, images } = product;
+    const { title, description, images } = product;
 
     return (
         <>
@@ -34,6 +35,15 @@ function SingleProduct({ product }) {
                     >
                     </Card>
                 }
+
+                <Tabs type="card">
+                    <TabPane tab="Description" key="1">
+                        {description && description}
+                    </TabPane>
+                    <TabPane tab="More" key="2">
+                        Call us on 1234 9876 5476 to learn more about this Product.
+                    </TabPane>
+                </Tabs>
                     
             </div>
             
