@@ -1,4 +1,5 @@
 const Product = require('../models/product');
+const User = require('../models/user');
 const slugify = require('slugify');
 
 exports.create = async (req, res) => {
@@ -97,5 +98,33 @@ exports.productsCount = async (req, res) => {
     } catch (error) {
         console.log('Error Getting Product Count: ', error);
         return res.status(400).send('Error Getting Product Count');
+    }
+}
+
+exports.productStar = async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.productId).exec();
+        const user = await User.findOne({ email: req.user.email }).exec();
+        const { star } = req.body;
+
+        let existingRatingObject = product.ratings.find((item) => item.postedBy.toString() === user._id.toString());
+
+        if(existingRatingObject === undefined) {
+            let ratingAdded = await Product.findByIdAndUpdate(product._id, 
+                { $push: { ratings: { star, postedBy: user._id }}}, 
+                { new: true }
+            ).exec();
+            res.json(ratingAdded)
+        } else {
+            let ratingUpload = await Product.updateOne({ ratings: { $elemMatch: existingRatingObject } },
+                { $set: { "ratings.$.star": star } },
+                { new: true }
+            ).exec();
+            res.json(ratingUpload)
+        }     
+        
+    } catch (error) {
+        console.log('Error Updating Rating: ', error);
+        return res.status(400).send('Error Updating Rating');
     }
 }
