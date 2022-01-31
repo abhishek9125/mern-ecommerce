@@ -37,6 +37,7 @@ function Product() {
     const onStarClick = (newRating, name) => {
         setStar(newRating);
         productStar(name, newRating, user.token).then((response) => {})
+        loadSingleProduct();
     }
 
     return (
