@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector } from 'react-redux';
-import { getProduct, productStar } from '../functions/product';
+import { getProduct, getRelated, productStar } from '../functions/product';
 import SingleProduct from '../components/Cards/SingleProduct';
+import ProductCard from '../components/Cards/ProductCard';
 
 function Product() {
 
     const [product, setProduct] = useState(null);
+    const [related, setRelated] = useState([]);
     const [star, setStar] = useState(0);
 
     const { user } = useSelector((state) => ({ ...state }));
-    const navigate = useNavigate();
     const { slug } = useParams();
 
     useEffect(() => {
@@ -27,7 +28,11 @@ function Product() {
     const loadSingleProduct = () => {
         getProduct(slug)
         .then((response) => {
-            setProduct(response.data)
+            setProduct(response.data);
+            getRelated(response.data._id)
+            .then((relatedResponse) => {
+                setRelated(relatedResponse.data);
+            })
         })
         .catch((error) => {
             console.log('Error Fetching Product Data : ', error);
@@ -51,6 +56,19 @@ function Product() {
                     <h4>Related Products</h4>
                     <hr />
                 </div>
+            </div>
+            <div className="row pb-5 pl-8 pr-8">
+                {
+                    related.length ? 
+                    related.map((p) => {
+                        return (
+                            <div key={p._id} className="col-md-4">
+                                <ProductCard product={p} />
+                            </div>
+                        )
+                    }) :
+                    <div className="text-center col">No Products Found</div>
+                }
             </div>
         </div>
     )
