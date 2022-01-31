@@ -1,4 +1,5 @@
 const Category = require('../models/category');
+const Product = require('../models/product');
 const Sub = require('../models/sub');
 const slugify = require('slugify');
 
@@ -26,7 +27,11 @@ exports.list = async (req, res) => {
 exports.read = async (req, res) => {
     try {
         const category = await Category.findOne({ slug: req.params.slug }).exec();
-        res.json(category);
+        const products = await Product.find({ categpry })
+        .populate('category')
+        .populate('subs')
+        .exec();
+        res.json({ category, products });
     } catch (error) {
         console.log('Error Fetching Category : ', error);
         res.status(400).send('Error Fetching Category');

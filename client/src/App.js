@@ -14,6 +14,7 @@ import Header from "./components/Navbar/Header";
 import { currentUser } from './functions/auth';
 import 'react-toastify/dist/ReactToastify.css';
 import Product from "./pages/Product";
+import CategoryHome from "./pages/category/CategoryHome";
  
 function App() {
 
@@ -49,6 +50,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/product/:slug" element={<Product />} />
+        <Route exact path="/category/:slug" element={<CategoryHome />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />  
         <Route exact path="/register/complete" element={<RegisterComplete />} />  
