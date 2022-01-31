@@ -6,6 +6,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './App';
 import rootReducer from './reducers';
 import 'antd/dist/antd.css';
+import '../src/index.css';
 
 const store = createStore(rootReducer, composeWithDevTools());
 
