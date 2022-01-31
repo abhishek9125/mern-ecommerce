@@ -6,6 +6,7 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
+import Search from '../Forms/Search';
 const { SubMenu, Item } = Menu;
 
 function Header() {
@@ -74,6 +75,10 @@ function Header() {
                     </Item>
                 </SubMenu>
             }
+
+            <span className="float-right p-1">
+                <Search />
+            </span>
             
         </Menu>
     )
