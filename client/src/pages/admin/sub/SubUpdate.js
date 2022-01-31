@@ -23,8 +23,8 @@ function SubUpdate() {
         setCategories(categoryResponse.data);
 
         const subResponse = await getSub(slug);
-        setName(subResponse.data.name);
-        setParent(subResponse.data.parent);
+        setName(subResponse.data.sub.name);
+        setParent(subResponse.data.sub.parent);
     },[])
 
     const handleSubmit = (e) => {

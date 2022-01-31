@@ -16,7 +16,7 @@ function CategoryUpdate() {
     const { slug } = useParams();
     useEffect(async () => {
         const categoryResponse = await getCategory(slug);
-        setName(categoryResponse.data.name);
+        setName(categoryResponse.data.category.name);
     },[])
 
     const handleSubmit = (e) => {
