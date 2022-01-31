@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getProduct } from '../functions/product';
 import { useNavigate, useParams } from "react-router-dom";
+import SingleProduct from '../components/Cards/SingleProduct';
 
 function Product() {
 
@@ -24,8 +25,10 @@ function Product() {
     }
 
     return (
-        <div>
-            {product.title}
+        <div className="container-fluid">
+            <div className="row pt-4">
+                <SingleProduct product={product} />
+            </div>
         </div>
     )
 }
