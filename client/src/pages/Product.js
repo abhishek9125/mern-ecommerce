@@ -6,7 +6,8 @@ import SingleProduct from '../components/Cards/SingleProduct';
 function Product() {
 
     const [product, setProduct] = useState(null);
-
+    const [star, setStar] = useState(0);
+    
     const navigate = useNavigate();
     const { slug } = useParams();
 
@@ -24,10 +25,14 @@ function Product() {
         })
     }
 
+    const onStarClick = (newRating, name) => {
+        setStar(newRating);
+    }
+
     return (
         <div className="container-fluid">
             <div className="row pt-4">
-                {product && <SingleProduct product={product} />}
+                {product && <SingleProduct product={product} onStarClick={onStarClick} star={star} />}
             </div>
             <div className="row">
                 <div className="col text-center pt-5 pb-5">

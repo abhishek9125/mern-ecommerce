@@ -10,7 +10,7 @@ import RatingModal from '../Modals/RatingModal';
 
 const { TabPane } = Tabs;
 
-function SingleProduct({ product }) {
+function SingleProduct({ product, onStarClick, star }) {
 
     const { title, description, images, _id } = product;
 
@@ -64,10 +64,8 @@ function SingleProduct({ product }) {
                             <StarRating 
                                 name={_id}
                                 numberOfStars={5}
-                                rating={2}
-                                changeRating={(newRating, name) => {
-        
-                                }}
+                                rating={star}
+                                changeRating={onStarClick}
                                 isSelectable={true}
                                 starRatedColor="red"
                             />
