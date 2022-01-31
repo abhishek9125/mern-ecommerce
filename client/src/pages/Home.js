@@ -3,6 +3,7 @@ import Jumbotron from '../components/Cards/Jumbotron';
 import CategoryList from '../components/Category/CategoryList';
 import BestSellers from '../components/Home/BestSellers';
 import NewArrivals from '../components/Home/NewArrivals';
+import SubList from '../components/Sub/SubList';
 
 function Home() {
 
@@ -16,6 +17,7 @@ function Home() {
             <NewArrivals />
             <BestSellers />
             <CategoryList />
+            <SubList />
             <br />
             <br />
         </>
