@@ -3,19 +3,19 @@ import { Modal, Button } from 'antd';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { StarOutlined } from '@ant-design/icons'; 
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function RatingModal({ children }) {
 
     const [modalVisible, setModalVisible] = useState(false);
     const { user } = useSelector((state) => ({ ...state }));
     const navigate = useNavigate();
-
+    const { slug } = useParams();
     const handleModal = () => {
         if(user && user.token) {
             setModalVisible(true);
         } else {
-            navigate('/login');
+            navigate(`/login?path=/product/${slug}`);
         }
     }
 

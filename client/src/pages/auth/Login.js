@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { Button } from 'antd';
 import { GoogleOutlined, MailOutlined, LoadingOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { createOrUpdateUser } from '../../functions/auth';
 
 function Login() {
@@ -14,22 +14,31 @@ function Login() {
     const [password, setPassword] = useState("abhishek");
     const [loading, setLoading] = useState(false);
 
+    let [searchParams] = useSearchParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const roleBasedRedirection = (response) => {
-        if( response.data.role === 'admin') {
-            navigate('/admin/dashboard');
+        let path = searchParams.get("path");
+        if(path) {
+            navigate(path);
         } else {
-            navigate('/user/history');
+            if(response.data.role === 'admin') {
+                navigate('/admin/dashboard');
+            } else {
+                navigate('/user/history');
+            }
         }
     }
 
     const { user } = useSelector((state) => ({ ...state }));
 
     useEffect(() => {
-        if(user && user.token) {
-            navigate('/');
+        let path = searchParams.get("path");
+        if(!path) {
+            if(user && user.token) {
+                navigate('/');
+            }
         }
     },[user])
 
