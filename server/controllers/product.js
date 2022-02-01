@@ -138,16 +138,8 @@ exports.listRelated = async (req, res) => {
     .limit(3)
     .populate('category')
     .populate('subs')
-    // .populate('postedBy')
     .exec();
     res.json(related);
-}
-
-exports.searchFilters = async (req, res) => {
-    const { query } = req.body;
-    if(query) {
-        await handleQuery(req, res, query);
-    }
 }
 
 const handleQuery = async (req, res, query) => {
@@ -157,3 +149,11 @@ const handleQuery = async (req, res, query) => {
     .exec();
     res.json(products);
 }
+
+exports.searchFilters = async (req, res) => {
+    const { query } = req.body;
+    if(query) {
+        await handleQuery(req, res, query);
+    }
+}
+
