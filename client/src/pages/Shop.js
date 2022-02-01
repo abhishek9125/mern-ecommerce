@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Menu, Slider } from 'antd';
+import { Menu, Slider, Checkbox } from 'antd';
 import { getProductsByCount, fetchProductsByFilter  } from '../functions/product';
-import { DollarOutlined } from '@ant-design/icons';
+import { getCategories } from '../functions/category';
+import { DollarOutlined, DownSquareOutlined } from '@ant-design/icons';
 import ProductCard from '../components/Cards/ProductCard';
 import LoadingCard from '../components/Cards/LoadingCard';
 
@@ -14,6 +15,8 @@ function Shop() {
     const [loading, setLoading] = useState(false);
     const [price, setPrice] = useState([0, 0]);
     const [ok, setOk] = useState(false);
+    const [categories, setCategories] = useState([]);
+    const [categoryIds, setCategoryIds] = useState([]);
 
     let dispatch = useDispatch();
     const { search } = useSelector((state) => ({ ...state }));
@@ -21,6 +24,7 @@ function Shop() {
 
     useEffect(() => {
         loadAllProducts();
+        getCategories().then((response) => setCategories(response.data));
     },[])
 
     const loadAllProducts = () => {
@@ -56,10 +60,48 @@ function Shop() {
             type: 'SEARCH_QUERY',
             payload: { text: "" }
         })
+        setCategoryIds([]);
         setPrice(value);
         setTimeout(() => {
             setOk(!ok);
         }, 300)
+    }
+
+    const showCategories = () => {
+        return (
+            categories.map((cat) => 
+                <div key={cat._id}>
+                    <Checkbox 
+                        name="category" 
+                        value={cat._id} 
+                        checked={categoryIds.includes(cat._id)}
+                        className="pb-2 pl-4 pr-4" 
+                        onChange={handleCategoryCheck}
+                    >
+                        {cat.name}
+                    </Checkbox>
+                </div>
+            )
+        )
+    }
+
+    const handleCategoryCheck = (e) => {
+        dispatch({
+            type: 'SEARCH_QUERY',
+            payload: { text: "" }
+        })
+        setPrice([0, 0]);
+        let inTheState = [...categoryIds];
+        let justChecked = e.target.value;
+        let foundInState = inTheState.indexOf(justChecked);
+
+        if(foundInState === -1) {
+            inTheState.push(justChecked);
+        } else {
+            inTheState.splice(foundInState, 1);
+        }
+        setCategoryIds(inTheState);
+        fetchProducts({ category: inTheState });
     }
 
     return (
@@ -81,6 +123,13 @@ function Shop() {
                                 />
                             </div>
                         </SubMenu>
+
+                        <SubMenu key="2" title={<span className="h6"><DownSquareOutlined />{" "}Categories</span>}>
+                            <div style={{ marginTop: '4px' }}>
+                                {showCategories()}
+                            </div>
+                        </SubMenu>
+
                     </Menu>
                 </div>
                 <div className="col-md-9 pt-2">
