@@ -168,8 +168,22 @@ const handlePrice = async (req, res, price) => {
     }
 }
 
+const handleCategory = async (req, res, category) => {
+    try {
+        const products = await Product.find({ category })
+        .populate('category')
+        .populate('subs')
+        .exec();
+        res.json(products);
+    } catch(error) {
+        console.log('Error Fetching Products');
+        return res.status(400).send('Error Fetching Rating');
+    }
+}
+
+
 exports.searchFilters = async (req, res) => {
-    const { query, price } = req.body;
+    const { query, price, category } = req.body;
     
     if(query) {
         await handleQuery(req, res, query);
@@ -177,6 +191,10 @@ exports.searchFilters = async (req, res) => {
 
     if(price) {
         await handlePrice(req, res, price);
+    }
+
+    if(category) {
+        await handleCategory(req, res, category);
     }
 }
 
