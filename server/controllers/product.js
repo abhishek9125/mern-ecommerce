@@ -150,10 +150,34 @@ const handleQuery = async (req, res, query) => {
     res.json(products);
 }
 
+const handlePrice = async (req, res, price) => {
+    try {
+        const products = await Product.find({
+            price: {
+                $gte: price[0],
+                $lte: price[1]
+            }
+        })
+        .limit(3)
+        .populate('category')
+        .populate('subs')
+        .exec();
+        res.json(products);
+    } catch(error) {
+        console.log('Error Fetching Products');
+        return res.status(400).send('Error Fetching Rating');
+    }
+}
+
 exports.searchFilters = async (req, res) => {
-    const { query } = req.body;
+    const { query, price } = req.body;
+    
     if(query) {
         await handleQuery(req, res, query);
+    }
+
+    if(price) {
+        await handlePrice(req, res, price);
     }
 }
 
