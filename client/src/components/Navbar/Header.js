@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Menu } from 'antd';
-import { AppstoreOutlined, LogoutOutlined, SettingOutlined, UserAddOutlined, UserOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, LogoutOutlined, SettingOutlined, ShoppingOutlined, UserAddOutlined, UserOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase';
@@ -35,6 +35,12 @@ function Header() {
             <Item key="home" icon={ <AppstoreOutlined /> } className="float-left">
                 <Link to="/">
                     Home
+                </Link>
+            </Item>
+
+            <Item key="shop" icon={ <ShoppingOutlined /> } className="float-left">
+                <Link to="/shop">
+                    Shop
                 </Link>
             </Item>
 
