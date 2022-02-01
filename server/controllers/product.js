@@ -158,7 +158,6 @@ const handlePrice = async (req, res, price) => {
                 $lte: price[1]
             }
         })
-        .limit(3)
         .populate('category')
         .populate('subs')
         .exec();

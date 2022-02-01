@@ -9,7 +9,7 @@ const { Meta } = Card;
 
 function ProductCard({ product }) {
 
-    const { title, description, images, slug } = product;
+    const { title, description, images, slug, price } = product;
 
     return (
         <>
@@ -36,7 +36,7 @@ function ProductCard({ product }) {
                 ]}
                 className="mb-2"
                 >
-                <Meta title={title} description={`${description && description.substring(0, 30)}...`} />
+                <Meta title={`${title} - $${price}`} description={`${description && description.substring(0, 30)}...`} />
             </Card>
         </>
     )
