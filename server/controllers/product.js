@@ -1,7 +1,6 @@
 const Product = require('../models/product');
 const User = require('../models/user');
 const slugify = require('slugify');
-const { aggregate } = require('../models/product');
 
 exports.create = async (req, res) => {
     try {
@@ -184,13 +183,12 @@ const handleCategory = async (req, res, category) => {
 
 const handleStars = async (req, res, stars) => {
     try {
-
         Product.aggregate([
             {
                 $project: {
                     document: "$$ROOT",
                     floorAverage: {
-                        $floor: { $avg: "$rating.star" }
+                        $floor: { $avg: "$ratings.star" }
                     }
                 }
             },
@@ -205,8 +203,8 @@ const handleStars = async (req, res, stars) => {
             .exec((error, products) => {
                 if(error) {
                     console.log('Error Fetching Products : ', error);
-                    res.json(products);
                 }
+                res.json(products);
             });
         })
     } catch(error) {

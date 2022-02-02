@@ -3,9 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Menu, Slider, Checkbox } from 'antd';
 import { getProductsByCount, fetchProductsByFilter  } from '../functions/product';
 import { getCategories } from '../functions/category';
-import { DollarOutlined, DownSquareOutlined } from '@ant-design/icons';
+import { DollarOutlined, DownSquareOutlined, StarOutlined } from '@ant-design/icons';
 import ProductCard from '../components/Cards/ProductCard';
 import LoadingCard from '../components/Cards/LoadingCard';
+import Star from '../components/Forms/Star';
 
 const { SubMenu, ItemGroup } = Menu;
 
@@ -17,6 +18,7 @@ function Shop() {
     const [ok, setOk] = useState(false);
     const [categories, setCategories] = useState([]);
     const [categoryIds, setCategoryIds] = useState([]);
+    const [star, setStar] = useState('');
 
     let dispatch = useDispatch();
     const { search } = useSelector((state) => ({ ...state }));
@@ -62,6 +64,7 @@ function Shop() {
         })
         setCategoryIds([]);
         setPrice(value);
+        setStar("");
         setTimeout(() => {
             setOk(!ok);
         }, 300)
@@ -89,8 +92,9 @@ function Shop() {
         dispatch({
             type: 'SEARCH_QUERY',
             payload: { text: "" }
-        })
+        });
         setPrice([0, 0]);
+        setStar("");
         let inTheState = [...categoryIds];
         let justChecked = e.target.value;
         let foundInState = inTheState.indexOf(justChecked);
@@ -102,6 +106,29 @@ function Shop() {
         }
         setCategoryIds(inTheState);
         fetchProducts({ category: inTheState });
+    }
+
+    const showStars = () => {
+        return (
+            <div className="pl-4 pr-4 pb-2">
+                <Star starClick={handleStarClick} numberOfStars={5} />
+                <Star starClick={handleStarClick} numberOfStars={4} />
+                <Star starClick={handleStarClick} numberOfStars={3} />
+                <Star starClick={handleStarClick} numberOfStars={2} />
+                <Star starClick={handleStarClick} numberOfStars={1} />
+            </div>
+        )
+    }
+
+    const handleStarClick = (num) => {
+        dispatch({
+            type: 'SEARCH_QUERY',
+            payload: { text: "" }
+        });
+        setPrice([0, 0]);
+        setCategoryIds([]);
+        setStar(num);
+        fetchProducts({ stars: num });
     }
 
     return (
@@ -127,6 +154,12 @@ function Shop() {
                         <SubMenu key="2" title={<span className="h6"><DownSquareOutlined />{" "}Categories</span>}>
                             <div style={{ marginTop: '4px' }}>
                                 {showCategories()}
+                            </div>
+                        </SubMenu>
+
+                        <SubMenu key="3" title={<span className="h6"><StarOutlined />{" "}Rating</span>}>
+                            <div style={{ marginTop: '4px' }}>
+                                {showStars()}
                             </div>
                         </SubMenu>
 
