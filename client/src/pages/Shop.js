@@ -23,6 +23,7 @@ function Shop() {
     const [brands, setBrands] = useState(['Apple', 'Sony', 'Lenovo', 'Microsoft', 'Samsung', 'Asus']);
     const [brand, setBrand] = useState('');
     const [colors, setColors] = useState(['Black', 'Brown', 'Silver', 'White', 'Blue']);
+    const [color, setColor] = useState('');
     const [sub, setSub] = useState('');
     const [star, setStar] = useState('');
 
@@ -74,6 +75,7 @@ function Shop() {
         setStar("");
         setSub('');
         setBrand('');
+        setColor('');
         setTimeout(() => {
             setOk(!ok);
         }, 300)
@@ -106,6 +108,7 @@ function Shop() {
         setStar("");
         setSub('');
         setBrand('');
+        setColor('');
         let inTheState = [...categoryIds];
         let justChecked = e.target.value;
         let foundInState = inTheState.indexOf(justChecked);
@@ -141,6 +144,7 @@ function Shop() {
         setStar(num);
         setSub('');
         setBrand('');
+        setColor('');
         fetchProducts({ stars: num });
     }
 
@@ -165,6 +169,7 @@ function Shop() {
         setCategoryIds([]);
         setStar('');
         setBrand('');
+        setColor('');
         setSub(s);
         fetchProducts({ sub: s });
     }
@@ -197,8 +202,42 @@ function Shop() {
         setCategoryIds([]);
         setStar('');
         setSub('');
+        setColor('');
         setBrand(e.target.value);
         fetchProducts({ brand: e.target.value });
+    }
+
+    const showColors = () => {
+        return (
+            colors.map((c) => {
+                return (
+                    <Radio
+                        name={c}
+                        value={c}
+                        checked={c == color}
+                        onChange={handleColor}
+                        className="pb-1 pl-4 pr-4"
+                        style={{ display: 'flex' }}
+                    >
+                        {c}
+                    </Radio>
+                )
+            })
+        )
+    }
+
+    const handleColor = (e) => {
+        dispatch({
+            type: 'SEARCH_QUERY',
+            payload: { text: "" }
+        });
+        setPrice([0, 0]);
+        setCategoryIds([]);
+        setStar('');
+        setSub('');
+        setBrand('');
+        setColor(e.target.value)
+        fetchProducts({ color: e.target.value });
     }
 
     return (
@@ -233,23 +272,23 @@ function Shop() {
                             </div>
                         </SubMenu>
 
-                        <SubMenu key="4" title={<span className="h6"><StarOutlined />{" "}Sub Categories</span>}>
+                        <SubMenu key="4" title={<span className="h6"><DownSquareOutlined />{" "}Sub Categories</span>}>
                             <div style={{ marginTop: '4px' }} className="pl-4 pr-4">
                                 {showSubs()}
                             </div>
                         </SubMenu>
 
-                        <SubMenu key="5" title={<span className="h6"><StarOutlined />{" "}Brands</span>}>
+                        <SubMenu key="5" title={<span className="h6"><DownSquareOutlined />{" "}Brands</span>}>
                             <div style={{ marginTop: '4px' }} className="pr-4">
                                 {showBrands()}
                             </div>
                         </SubMenu>
 
-                        {/* <SubMenu key="6" title={<span className="h6"><StarOutlined />{" "}Colors</span>}>
-                            <div style={{ marginTop: '4px' }} className="pl-4 pr-4">
-                                {showBrands()}
+                        <SubMenu key="6" title={<span className="h6"><DownSquareOutlined />{" "}Colors</span>}>
+                            <div style={{ marginTop: '4px' }} className="pr-4">
+                                {showColors()}
                             </div>
-                        </SubMenu> */}
+                        </SubMenu>
                         
 
                     </Menu>
