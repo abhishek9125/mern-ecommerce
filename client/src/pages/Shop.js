@@ -24,6 +24,7 @@ function Shop() {
     const [brand, setBrand] = useState('');
     const [colors, setColors] = useState(['Black', 'Brown', 'Silver', 'White', 'Blue']);
     const [color, setColor] = useState('');
+    const [shipping, setShipping] = useState('');
     const [sub, setSub] = useState('');
     const [star, setStar] = useState('');
 
@@ -76,6 +77,7 @@ function Shop() {
         setSub('');
         setBrand('');
         setColor('');
+        setShipping('');
         setTimeout(() => {
             setOk(!ok);
         }, 300)
@@ -109,6 +111,7 @@ function Shop() {
         setSub('');
         setBrand('');
         setColor('');
+        setShipping('');
         let inTheState = [...categoryIds];
         let justChecked = e.target.value;
         let foundInState = inTheState.indexOf(justChecked);
@@ -145,6 +148,7 @@ function Shop() {
         setSub('');
         setBrand('');
         setColor('');
+        setShipping('');
         fetchProducts({ stars: num });
     }
 
@@ -170,6 +174,7 @@ function Shop() {
         setStar('');
         setBrand('');
         setColor('');
+        setShipping('');
         setSub(s);
         fetchProducts({ sub: s });
     }
@@ -203,6 +208,7 @@ function Shop() {
         setStar('');
         setSub('');
         setColor('');
+        setShipping('');
         setBrand(e.target.value);
         fetchProducts({ brand: e.target.value });
     }
@@ -236,8 +242,47 @@ function Shop() {
         setStar('');
         setSub('');
         setBrand('');
-        setColor(e.target.value)
+        setShipping('');
+        setColor(e.target.value);
         fetchProducts({ color: e.target.value });
+    }
+
+    const showShipping = () => {
+        return (
+            <>
+                <Checkbox
+                    value="Yes"
+                    checked={shipping == 'Yes'}
+                    className="pb-2 pl-4 pr-4"
+                    onChange={handleShippingChange}
+                >
+                    Yes
+                </Checkbox>
+                <Checkbox
+                    value="No"
+                    checked={shipping == 'No'}
+                    className="pb-2 pl-4 pr-4"
+                    onChange={handleShippingChange}
+                >
+                    No
+                </Checkbox>
+            </>
+        )
+    }
+
+    const handleShippingChange = (e) => {
+        dispatch({
+            type: 'SEARCH_QUERY',
+            payload: { text: "" }
+        });
+        setPrice([0, 0]);
+        setCategoryIds([]);
+        setStar('');
+        setSub('');
+        setBrand('');
+        setColor('');
+        setShipping(e.target.value);
+        fetchProducts({ shipping: e.target.value });
     }
 
     return (
@@ -289,8 +334,14 @@ function Shop() {
                                 {showColors()}
                             </div>
                         </SubMenu>
-                        
 
+
+                        <SubMenu key="7" title={<span className="h6"><DownSquareOutlined />{" "}Shipping</span>}>
+                            <div style={{ marginTop: '4px' }} className="pr-4">
+                                {showShipping()}
+                            </div>
+                        </SubMenu>
+                        
                     </Menu>
                 </div>
                 <div className="col-md-9 pt-2">
