@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Menu, Slider, Checkbox } from 'antd';
 import { getProductsByCount, fetchProductsByFilter  } from '../functions/product';
 import { getCategories } from '../functions/category';
+import { getSubs } from '../functions/sub';
 import { DollarOutlined, DownSquareOutlined, StarOutlined } from '@ant-design/icons';
 import ProductCard from '../components/Cards/ProductCard';
 import LoadingCard from '../components/Cards/LoadingCard';
@@ -18,6 +19,8 @@ function Shop() {
     const [ok, setOk] = useState(false);
     const [categories, setCategories] = useState([]);
     const [categoryIds, setCategoryIds] = useState([]);
+    const [subs, setSubs] = useState([]);
+    const [sub, setSub] = useState('');
     const [star, setStar] = useState('');
 
     let dispatch = useDispatch();
@@ -27,6 +30,7 @@ function Shop() {
     useEffect(() => {
         loadAllProducts();
         getCategories().then((response) => setCategories(response.data));
+        getSubs().then((response) => setSubs(response.data));
     },[])
 
     const loadAllProducts = () => {
@@ -65,6 +69,7 @@ function Shop() {
         setCategoryIds([]);
         setPrice(value);
         setStar("");
+        setSub('');
         setTimeout(() => {
             setOk(!ok);
         }, 300)
@@ -95,6 +100,7 @@ function Shop() {
         });
         setPrice([0, 0]);
         setStar("");
+        setSub('');
         let inTheState = [...categoryIds];
         let justChecked = e.target.value;
         let foundInState = inTheState.indexOf(justChecked);
@@ -128,7 +134,32 @@ function Shop() {
         setPrice([0, 0]);
         setCategoryIds([]);
         setStar(num);
+        setSub('');
         fetchProducts({ stars: num });
+    }
+
+    const showSubs = () => {
+        return (
+            subs.map((s) => {
+                return (
+                    <div key={s._id} style={{ cursor: 'pointer' }} onClick={() => handleSubClick(s)} className="p-1 m-1 badge badge-secondary">
+                        {s.name}
+                    </div>
+                )
+            })
+        )
+    }
+
+    const handleSubClick = (s) => {
+        dispatch({
+            type: 'SEARCH_QUERY',
+            payload: { text: "" }
+        });
+        setPrice([0, 0]);
+        setCategoryIds([]);
+        setStar('');
+        setSub(s);
+        fetchProducts({ sub: s });
     }
 
     return (
@@ -137,7 +168,7 @@ function Shop() {
                 <div className="col-md-3 pt-2">
                     <h4>Search / Filter</h4>
                     <hr />
-                    <Menu defaultOpenKeys={["1","2"]} mode="inline">
+                    <Menu defaultOpenKeys={["1","2","3","4","5","6","7"]} mode="inline">
                         <SubMenu key="1" title={<span className="h6"><DollarOutlined />{" "}Price</span>}>
                             <div>
                                 <Slider 
@@ -160,6 +191,12 @@ function Shop() {
                         <SubMenu key="3" title={<span className="h6"><StarOutlined />{" "}Rating</span>}>
                             <div style={{ marginTop: '4px' }}>
                                 {showStars()}
+                            </div>
+                        </SubMenu>
+
+                        <SubMenu key="4" title={<span className="h6"><StarOutlined />{" "}Sub Categories</span>}>
+                            <div style={{ marginTop: '4px' }} className="pl-4 pr-4">
+                                {showSubs()}
                             </div>
                         </SubMenu>
 
