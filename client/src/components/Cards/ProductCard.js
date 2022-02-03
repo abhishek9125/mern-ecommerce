@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import laptop from '../../images/laptop.png';
 import { showAverage } from '../../functions/rating';
@@ -13,6 +14,9 @@ function ProductCard({ product }) {
     const [toolTip, setToolTip] = useState('Click to Add Product');
     const { title, description, images, slug, price } = product;
 
+    const dispatch = useDispatch();
+    const { user, cart } = useSelector((state) => ({ ...state }));
+
     const handleAddToCart = () => {
         let cart = [];
         if(typeof window != 'undefined') {
@@ -24,8 +28,14 @@ function ProductCard({ product }) {
             let uniqueCartArray = _.uniqWith(cart, _.isEqual);
             localStorage.setItem('cart', JSON.stringify(uniqueCartArray));
             setToolTip('Added To Cart');
+            dispatch({
+                type: 'ADD_TO_CART',
+                payload: uniqueCartArray
+            });
         }
     }
+
+    
 
     return (
         <>

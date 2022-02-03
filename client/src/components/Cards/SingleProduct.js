@@ -1,8 +1,10 @@
-import React from 'react';
-import { Card, Tabs } from 'antd';
+import React, { useState } from 'react';
+import { Card, Tabs, Tooltip } from 'antd';
 import { Carousel } from 'react-responsive-carousel';
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import StarRating from 'react-star-ratings';
+import { useSelector, useDispatch } from 'react-redux';
+import _ from 'lodash';
 import laptop from '../../images/laptop.png';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import ProductListItems from './ProductListItems';
@@ -14,6 +16,30 @@ const { TabPane } = Tabs;
 function SingleProduct({ product, onStarClick, star }) {
 
     const { title, description, images, _id } = product;
+
+    const [toolTip, setToolTip] = useState('Click to Add Product');
+
+    const dispatch = useDispatch();
+
+    const { user, cart } = useSelector((state) => ({ ...state }));
+
+    const handleAddToCart = () => {
+        let cart = [];
+        if(typeof window != 'undefined') {
+            let cartData = localStorage.getItem('cart');
+            if(cartData) {
+                cart = JSON.parse(cartData);
+            }
+            cart.push({ ...product, count: 1 });
+            let uniqueCartArray = _.uniqWith(cart, _.isEqual);
+            localStorage.setItem('cart', JSON.stringify(uniqueCartArray));
+            setToolTip('Added To Cart');
+            dispatch({
+                type: 'ADD_TO_CART',
+                payload: uniqueCartArray
+            });
+        }
+    }
 
     return (
         <>
@@ -59,9 +85,11 @@ function SingleProduct({ product, onStarClick, star }) {
                 }
                 <Card
                     actions={[ 
-                        <>
-                            <ShoppingCartOutlined className="text-success" /> <br /> Add To Cart
-                        </>,
+                        <Tooltip title={toolTip}>
+                            <div onClick={handleAddToCart}>
+                                <ShoppingCartOutlined className="text-danger" /> <br /> Add To Cart
+                            </div>
+                        </Tooltip>,
                         <>
                             <HeartOutlined className="text-danger" /> <br /> Add To Wishlist
                         </>,
