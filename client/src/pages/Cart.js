@@ -1,17 +1,29 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate, useParams } from "react-router-dom";
 import { Link } from 'react-router-dom';
 
 
 function Cart() {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    // const { slug } = useParams();
     const { user, cart } = useSelector((state) => ({ ...state }));
 
     const getTotal = () => {
         return cart.reduce((currentValue, nextValue) => {
             return currentValue + (nextValue.price * nextValue.count)
         },0);
+    }
+
+    const saveOrderToDb = () => {
+
+    }
+
+    const handleLoginClick = () => {
+        navigate(`/login?path=/cart`);
     }
 
     return (
@@ -46,10 +58,10 @@ function Cart() {
                     <hr />
                     {
                         user ? 
-                        <button className="btn btn-sn btn-primary btn-raised">
+                        <button onClick={saveOrderToDb} className="btn btn-sn btn-primary btn-raised" disabled={!cart.length}>
                             Proceed To Checkout
                         </button> :
-                        <button className="btn btn-sn btn-primary btn-raised">
+                        <button className="btn btn-sn btn-primary btn-raised" onClick={handleLoginClick}>
                             Login To Checkout
                         </button>
                     }
