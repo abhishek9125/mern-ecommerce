@@ -1,7 +1,8 @@
 import React from 'react';
 import ModalImage from 'react-modal-image';
 import laptop from '../../images/laptop.png';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { CheckCircleOutlined, CloseCircleOutlined, CloseOutlined } from '@ant-design/icons';
 import { toast } from 'react-toastify';
 
 function ProductCardInCheckout({ product }) {
@@ -63,6 +64,28 @@ function ProductCardInCheckout({ product }) {
         }
     }
 
+    const handleRemove = () => {
+        let cart = [];
+        if(typeof window != 'undefined') {
+            let cartData = localStorage.getItem('cart');
+            if(cartData) {
+                cart = JSON.parse(cartData);
+            }
+
+            cart.map((p,i) => {
+                if(product._id === p._id) {
+                    cart.splice(i,1);
+                }
+            })
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            dispatch({
+                type: 'ADD_TO_CART',
+                payload: cart
+            });
+        }
+    }
+
     return (
         <tbody>
             <tr>
@@ -108,8 +131,16 @@ function ProductCardInCheckout({ product }) {
                         onChange={handleQuantityChange}
                     />
                 </td>
-                <td>Shipping</td>
-                <td>Remove</td>
+                <td className="text-center">
+                    {
+                        product.shipping === 'Yes' ?
+                        <CheckCircleOutlined className="text-success" /> :
+                        <CloseCircleOutlined className="text-danger" />
+                    }
+                </td>
+                <td className="text-center">
+                    <CloseOutlined onClick={handleRemove} className="text-danger pointer" />
+                </td>
             </tr>
         </tbody>
     )
