@@ -17,6 +17,7 @@ import Product from "./pages/Product";
 import CategoryHome from "./pages/category/CategoryHome";
 import SubHome from "./pages/sub/SubHome";
 import Shop from "./pages/Shop";
+import Cart from "./pages/Cart";
  
 function App() {
 
@@ -57,6 +58,7 @@ function App() {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />  
         <Route exact path="/shop" element={<Shop />} />  
+        <Route exact path="/cart" element={<Cart />} />  
         <Route exact path="/register/complete" element={<RegisterComplete />} />  
         <Route exact path="/forgot/password" element={<ForgotPassword />} />  
         <Route path="/user/*" element={<UserRoute />} />  
