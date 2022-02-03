@@ -2,6 +2,7 @@ import React from 'react';
 import ModalImage from 'react-modal-image';
 import laptop from '../../images/laptop.png';
 import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 
 function ProductCardInCheckout({ product }) {
 
@@ -19,6 +20,38 @@ function ProductCardInCheckout({ product }) {
             cart.map((p,i) => {
                 if(product._id == p._id) {
                     cart[i].color = e.target.value;
+                }
+            })
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            dispatch({
+                type: 'ADD_TO_CART',
+                payload: cart
+            });
+        }
+    }
+
+    const handleQuantityChange = (e) => {
+        e.preventDefault();
+        let count = e.target.value < 1 ? 1 : e.target.value;
+        if(count > 10) {
+            if(count > product.quantity) {
+                toast.error(`Only ${product.quantity} Items are available in stock.`);
+                return;
+            }
+            toast.error('You can not add more that 10 Items of Same Product.');
+            return;
+        }
+        let cart = [];
+        if(typeof window != 'undefined') {
+            let cartData = localStorage.getItem('cart');
+            if(cartData) {
+                cart = JSON.parse(cartData);
+            }
+
+            cart.map((p,i) => {
+                if(product._id == p._id) {
+                    cart[i].count = count;
                 }
             })
 
@@ -67,7 +100,14 @@ function ProductCardInCheckout({ product }) {
                         }
                     </select>
                 </td>
-                <td>{product.count}</td>
+                <td className="text-center">
+                    <input 
+                        type="number"
+                        value={product.count}
+                        className="form-control"
+                        onChange={handleQuantityChange}
+                    />
+                </td>
                 <td>Shipping</td>
                 <td>Remove</td>
             </tr>
