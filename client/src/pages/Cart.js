@@ -42,7 +42,7 @@ function Cart() {
     }
 
     const saveOrderToDb = () => {
-
+        navigate('/checkout')
     }
 
     const handleLoginClick = () => {
