@@ -32,6 +32,10 @@ function ProductCard({ product }) {
                 type: 'ADD_TO_CART',
                 payload: uniqueCartArray
             });
+            dispatch({
+                type: 'SET_VISIBLE',
+                payload: true
+            });
         }
     }
 
