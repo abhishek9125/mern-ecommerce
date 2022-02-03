@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Menu } from 'antd';
-import { AppstoreOutlined, LogoutOutlined, SettingOutlined, ShoppingOutlined, UserAddOutlined, UserOutlined } from '@ant-design/icons';
+import { Menu, Badge } from 'antd';
+import { AppstoreOutlined, LogoutOutlined, SettingOutlined, ShoppingCartOutlined, ShoppingOutlined, UserAddOutlined, UserOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase';
@@ -15,7 +15,7 @@ function Header() {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { user } = useSelector((state) => ({ ...state}));
+    const { user, cart } = useSelector((state) => ({ ...state}));
 
     const handleClick = (e) => {
         setCurrent(e.key)
@@ -44,15 +44,23 @@ function Header() {
                 </Link>
             </Item>
 
+            <Item key="cart" icon={ <ShoppingCartOutlined /> } className="float-left">
+                <Link to="/cart">
+                    <Badge count={cart.length} offset={[9,0]}>
+                        Cart
+                    </Badge>
+                </Link>
+            </Item>
+
             {
                 !user &&
                 <>
-                    <Item key="register" icon={ <UserAddOutlined /> } className="float-right">
+                    <Item key="register" icon={ <UserAddOutlined /> } className="float-left">
                         <Link to="/register">
                             Register
                         </Link>
                     </Item>
-                    <Item key="login" icon={ <UserOutlined /> } className="float-right">
+                    <Item key="login" icon={ <UserOutlined /> } className="float-left">
                         <Link to="/login">
                             Login
                         </Link>
@@ -82,7 +90,7 @@ function Header() {
                 </SubMenu>
             }
 
-            <span className="float-right p-1">
+            <span className="float-left p-1">
                 <Search />
             </span>
             
