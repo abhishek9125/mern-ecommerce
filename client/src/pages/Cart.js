@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from 'react-router-dom';
+import ProductCardInCheckout from '../components/Cards/ProductCardInCheckout';
 
 
 function Cart() {
@@ -16,6 +17,28 @@ function Cart() {
         return cart.reduce((currentValue, nextValue) => {
             return currentValue + (nextValue.price * nextValue.count)
         },0);
+    }
+
+    const showCartItems = () => {
+        return (
+            <table className="table table-bordered">
+                <thead className="thead-light">
+                    <tr>
+                        <th scope="col">Image</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Brand</th>
+                        <th scope="col">Color</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Shipping</th>
+                        <th scope="col">Remove</th>
+                    </tr>
+                </thead>
+                {
+                    cart.map((product) => <ProductCardInCheckout key={product._id} product={product} />)
+                }
+            </table>
+        )
     }
 
     const saveOrderToDb = () => {
@@ -35,7 +58,7 @@ function Cart() {
                     {
                         !cart.length ? 
                         <p>No Products in Cart. <Link to='/shop'>Continue Shopping</Link></p> : 
-                        <div>Show Cart Items</div>
+                        showCartItems()
                     }
                 </div>
                 <div className="col-md-4">
