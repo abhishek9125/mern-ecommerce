@@ -11,7 +11,7 @@ function Checkout() {
     const [total, setTotal] = useState(0);
     const [address, setAddress] = useState('');
     const [addressSaved, setAddressSaved] = useState(false);
-
+    const [coupon, setCoupon] = useState('');
     const dispatch = useDispatch();
     const { user } = useSelector((state) => ({ ...state }));
 
@@ -51,37 +51,63 @@ function Checkout() {
         })
     }
 
+    const showAddress = () => (
+        <>
+            <ReactQuill 
+                theme="snow"
+                value={address}
+                onChange={setAddress}
+            />
+            <button className="btn btn-primary mt-2" onClick={saveAddressToDb}>
+                Save
+            </button>
+        </>
+    )
+
+    const showProductSummary = () => {
+        return products.map((p,i) => (
+            <div key={i}>
+                {p.product.title} ({p.color}) x {p.count} = {p.product.price * p.count}
+            </div>
+        ))
+    }
+
+    const applyDiscountCoupon = () => {
+        
+    }
+
+    const showApplyCoupon = () => (
+        <>
+            <input 
+                type="text"
+                value={coupon}
+                className="form-control"
+                onChange={(e) => setCoupon(e.target.value)}
+            />
+            <button onClick={applyDiscountCoupon} className="btn btn-primary btn-raised mt-2">
+                Apply Coupon
+            </button>
+        </>
+    )
+
     return (
         <div className="row">
             <div className="col-md-6">
                 <h4>Delivery Address</h4>
                 <br />
                 <br />
-                <ReactQuill 
-                    theme="snow"
-                    value={address}
-                    onChange={setAddress}
-                />
-                <button className="btn btn-primary mt-2" onClick={saveAddressToDb}>
-                    Save
-                </button>
+                {showAddress()}
                 <hr />
                 <h4>Got Coupon?</h4>
                 <br />
-                Coupon Feature
+                {showApplyCoupon()}
             </div>
             <div className="col-md-6">
                 <h4>Order Summary</h4>
                 <hr />
                 <p>Products {products.length}</p>
                 <hr />
-                {
-                    products.map((p,i) => (
-                        <div key={i}>
-                            {p.product.title} ({p.color}) x {p.count} = {p.product.price * p.count}
-                        </div>
-                    ))
-                }
+                {showProductSummary()}
                 <hr />
                 <p>Cart Total : ${total}</p>
 
