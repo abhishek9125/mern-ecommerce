@@ -11,6 +11,7 @@ import SubUpdate from '../../pages/admin/sub/SubUpdate';
 import ProductCreate from '../../pages/admin/product/ProductCreate';
 import AllProducts from '../../pages/admin/product/AllProducts';
 import ProductUpdate from '../../pages/admin/product/ProductUpdate';
+import CreateCouponPage from '../../pages/admin/coupon/CreateCouponPage';
 
 function AdminRoute({ children, ...rest }) {
 
@@ -39,6 +40,7 @@ function AdminRoute({ children, ...rest }) {
             <Route path="sub/:slug" element={<SubUpdate />} />
             <Route path="product" element={<ProductCreate />} />
             <Route path="products" element={<AllProducts />} />
+            <Route path="coupon" element={<CreateCouponPage />} />
             <Route path="product/:slug" element={<ProductUpdate />} />
         </Routes>
     )  : ( 
