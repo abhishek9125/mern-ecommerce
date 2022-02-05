@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getUserCart, emptyUserCart, saveUserAddress } from '../functions/user';
+import { getUserCart, emptyUserCart, saveUserAddress, applyCoupon } from '../functions/user';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import ReactQuill from 'react-quill';
@@ -12,6 +12,9 @@ function Checkout() {
     const [address, setAddress] = useState('');
     const [addressSaved, setAddressSaved] = useState(false);
     const [coupon, setCoupon] = useState('');
+    const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
+    const [discountError, setDiscountError] = useState('');
+
     const dispatch = useDispatch();
     const { user } = useSelector((state) => ({ ...state }));
 
@@ -47,6 +50,9 @@ function Checkout() {
         .then((response) => {
             setProducts([]);
             setTotal(0);
+            setTotalAfterDiscount(0);
+            setDiscountError(''); 
+            setCoupon('');
             toast.success('Items Removed from Cart Successfully..!!');
         })
     }
@@ -73,7 +79,16 @@ function Checkout() {
     }
 
     const applyDiscountCoupon = () => {
-        
+        applyCoupon(coupon, user.token)
+        .then((response) => {
+            if(response.data) {
+                setTotalAfterDiscount(response.data.totalAfterDiscount);
+                setDiscountError('');
+            }
+            if(response.data.error) {
+                setDiscountError(response.data.error);
+            }
+        })
     }
 
     const showApplyCoupon = () => (
@@ -82,7 +97,10 @@ function Checkout() {
                 type="text"
                 value={coupon}
                 className="form-control"
-                onChange={(e) => setCoupon(e.target.value)}
+                onChange={(e) => {
+                    setCoupon(e.target.value);
+                    setDiscountError('');
+                }}
             />
             <button onClick={applyDiscountCoupon} className="btn btn-primary btn-raised mt-2">
                 Apply Coupon
@@ -101,6 +119,8 @@ function Checkout() {
                 <h4>Got Coupon?</h4>
                 <br />
                 {showApplyCoupon()}
+                <br />
+                { discountError && <p className="bg-danger p-2">{discountError}</p> }
             </div>
             <div className="col-md-6">
                 <h4>Order Summary</h4>
@@ -110,7 +130,17 @@ function Checkout() {
                 {showProductSummary()}
                 <hr />
                 <p>Cart Total : ${total}</p>
-
+                {
+                    totalAfterDiscount > 0 &&
+                    <>
+                        <p className="text-success">
+                            Discount Applied : ${total - totalAfterDiscount}
+                        </p>
+                        <p>
+                            Grand Total : ${totalAfterDiscount}
+                        </p>
+                    </>
+                }
                 <div className="row">
                     <div className="col-md-6">
                         <button className="btn btn-primary" disabled={!addressSaved || !products.length}>
