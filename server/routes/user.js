@@ -1,11 +1,10 @@
 const express = require('express');
-
 const router = express.Router();
 
-router.get('/user', (req, res) => {
-    res.json({
-        data : 'Hey you hit Node API for user'
-    })
-});
+const { userCart } = require('../controllers/user');
+
+const { authCheck, adminCheck } = require('../middlewares/auth');
+
+router.post('/cart', authCheck, userCart);
 
 module.exports = router;
