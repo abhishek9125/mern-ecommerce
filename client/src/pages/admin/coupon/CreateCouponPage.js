@@ -12,9 +12,14 @@ function CreateCouponPage() {
     const [name, setName] = useState('');
     const [expiry, setExpiry] = useState('');
     const [discount, setDiscount] = useState('');
+    const [coupons, setCoupons] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const { user } = useSelector((state) => ({ ...state }));
+
+    useEffect(() => {
+        getCoupons().then((response) => setCoupons(response.data));
+    },[])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -25,11 +30,27 @@ function CreateCouponPage() {
             setName('');
             setDiscount('');
             setExpiry('');
+            getCoupons().then((res) => setCoupons(res.data));
             toast.success(`${response.data.name} is Created Successfully`);
         })
         .catch((error) => {
             console.log('Error Creating Coupon: ', error);
         })
+    }
+
+    const handleRemove = (couponId) => {
+        if(window.confirm('Delete Coupon ?')) {
+            setLoading(true);
+            removeCoupon(couponId, user.token)
+            .then((response) => {
+                getCoupons().then((res) => setCoupons(res.data));
+                setLoading(false);
+                toast.error(`Coupon ${response.data.name} Deleted Successfully`);
+            })
+            .catch((error) => {
+                console.log('Error Deleting Coupon : ', error);
+            })
+        }
     }
 
     return (
@@ -81,6 +102,35 @@ function CreateCouponPage() {
                         </button>
 
                     </form>
+                    <br />
+                    <h4>{coupons.length} Coupons</h4>
+                    <table className="table table-bordered">
+                        <thead className="thead-light">
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Expiry</th>
+                                <th scope="col">Discount</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                coupons.map((c) => (
+                                    <tr key={c._id}>
+                                        <td>{c.name}</td>
+                                        <td>{new Date(c.expiry).toLocaleDateString()}</td>
+                                        <td>{c.discount}</td>
+                                        <td>
+                                            <DeleteOutlined 
+                                                onClick={() => handleRemove(c._id)}
+                                                className="text-danger pointer"
+                                            />
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
