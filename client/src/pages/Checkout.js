@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getUserCart, emptyUserCart, saveUserAddress, applyCoupon } from '../functions/user';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -16,6 +17,7 @@ function Checkout() {
     const [discountError, setDiscountError] = useState('');
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { user } = useSelector((state) => ({ ...state }));
 
     useEffect(() => {
@@ -52,7 +54,7 @@ function Checkout() {
             setTotal(0);
             setTotalAfterDiscount(0);
             setDiscountError(''); 
-            setCoupon('');
+            setCoupon(''); 
             toast.success('Items Removed from Cart Successfully..!!');
         })
     }
@@ -83,10 +85,17 @@ function Checkout() {
         .then((response) => {
             if(response.data) {
                 setTotalAfterDiscount(response.data.totalAfterDiscount);
-                setDiscountError('');
+                dispatch({
+                    type:'COUPON_APPLIED',
+                    paylaod: true
+                });
             }
             if(response.data.error) {
                 setDiscountError(response.data.error);
+                dispatch({
+                    type:'COUPON_APPLIED',
+                    paylaod: false
+                });
             }
         })
     }
@@ -143,7 +152,7 @@ function Checkout() {
                 }
                 <div className="row">
                     <div className="col-md-6">
-                        <button className="btn btn-primary" disabled={!addressSaved || !products.length}>
+                        <button className="btn btn-primary" disabled={!addressSaved || !products.length} onClick={() => { navigate('/payment') }}>
                             Place Order
                         </button>
                     </div>
