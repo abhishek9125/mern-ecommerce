@@ -20,6 +20,7 @@ import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
 import SideDrawer from "./components/Drawer/SideDrawer";
 import Checkout from "./pages/Checkout";
+import Payment from "./pages/Payment";
  
 function App() {
 
@@ -63,6 +64,7 @@ function App() {
         <Route exact path="/shop" element={<Shop />} />  
         <Route exact path="/cart" element={<Cart />} />  
         <Route exact path="/checkout" element={<Checkout />} />  
+        <Route exact path="/payment" element={<Payment />} />  
         <Route exact path="/register/complete" element={<RegisterComplete />} />  
         <Route exact path="/forgot/password" element={<ForgotPassword />} />  
         <Route path="/user/*" element={<UserRoute />} />  

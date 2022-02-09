@@ -21,6 +21,7 @@
     "mongoose": "^6.1.8",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
-    "slugify": "^1.6.5"
+    "slugify": "^1.6.5",
+    "stripe": "^8.202.0"
   }
 }

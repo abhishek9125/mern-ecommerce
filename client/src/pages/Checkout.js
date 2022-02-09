@@ -86,15 +86,15 @@ function Checkout() {
             if(response.data) {
                 setTotalAfterDiscount(response.data.totalAfterDiscount);
                 dispatch({
-                    type:'COUPON_APPLIED',
-                    paylaod: true
+                    type: 'COUPON_APPLIED',
+                    paylaod: { coupon: true }
                 });
             }
             if(response.data.error) {
                 setDiscountError(response.data.error);
                 dispatch({
-                    type:'COUPON_APPLIED',
-                    paylaod: false
+                    type: 'COUPON_APPLIED',
+                    paylaod: { coupon: false }
                 });
             }
         })
