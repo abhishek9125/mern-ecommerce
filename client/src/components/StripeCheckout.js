@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { createPaymentIntent } from '../functions/stripe';
 import { DollarOutlined, CheckOutlined } from '@ant-design/icons';
+import { createOrder, emptyUserCart } from '../functions/user';
 import Laptop from '../images/laptop.png'
 
 function StripeCheckout() {
@@ -50,7 +51,24 @@ function StripeCheckout() {
         if(payload.error) {
             setError(`Payment Failed : ${payload.error.message}`);
         } else {
-            console.log(`payload`, payload)
+            createOrder(payload, user.token)
+            .then((response) => {
+                if(response.data.ok) {
+                    if( typeof window !== "undefined" ) localStorage.removeItem('cart');
+
+                    dispatch({
+                        type: 'ADD_TO_CART',
+                        payload: [],
+                    });
+
+                    dispatch({
+                        type: 'COUPON_APPLIED',
+                        payload: false,
+                    });
+
+                    emptyUserCart(user.token);
+                }
+            })
             setError(null);
             setSucceeded(true);
         }
