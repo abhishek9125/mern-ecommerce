@@ -51,9 +51,9 @@ function ProductCard({ product }) {
             <Card
                 cover={
                     <img 
-                    src={images && images.length ? images[0].url : laptop}
-                    style={{ height: '150px', objectFit: 'cover' }}
-                    className="p-1"
+                        src={images && images.length ? images[0].url : laptop}
+                        style={{ height: '150px', objectFit: 'cover' }}
+                        className="p-1"
                     />
                 }
                 actions={[ 
@@ -61,8 +61,9 @@ function ProductCard({ product }) {
                         <EyeOutlined className="text-warning" /> <br /> View Product
                     </Link>,
                     <Tooltip title={toolTip}>
-                        <div onClick={handleAddToCart}>
-                            <ShoppingCartOutlined className="text-danger" /> <br /> Add To Cart
+                        <div onClick={handleAddToCart} disabled={product.quantity < 1}>
+                            <ShoppingCartOutlined className="text-danger" /> <br /> 
+                            {product.quantity < 1 ? 'Out Of Stock' : 'Add To Cart'}
                         </div>
                     </Tooltip>
 
