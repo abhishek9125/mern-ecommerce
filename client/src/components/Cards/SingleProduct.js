@@ -10,6 +10,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import ProductListItems from './ProductListItems';
 import RatingModal from '../Modals/RatingModal';
 import { showAverage } from '../../functions/rating';
+import { addToWishlist } from '../../functions/user';
+import { toast } from 'react-toastify';
 
 const { TabPane } = Tabs;
 
@@ -43,6 +45,14 @@ function SingleProduct({ product, onStarClick, star }) {
                 payload: true
             });
         }
+    }
+
+    const handleAddToWishlist = (e) => {
+        e.preventDefault();
+        addToWishlist(product._id, user.token)
+        .then((response) => {
+            toast.success('Added To Wishlist');
+        })
     }
 
     return (
@@ -94,9 +104,9 @@ function SingleProduct({ product, onStarClick, star }) {
                                 <ShoppingCartOutlined className="text-danger" /> <br /> Add To Cart
                             </div>
                         </Tooltip>,
-                        <>
+                        <a onClick={handleAddToWishlist}>
                             <HeartOutlined className="text-danger" /> <br /> Add To Wishlist
-                        </>,
+                        </a>,
                         <RatingModal>
                             <StarRating 
                                 name={_id}

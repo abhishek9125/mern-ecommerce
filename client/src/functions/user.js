@@ -49,12 +49,12 @@ export const getWishlist = async (authToken) => {
 }
 
 export const addToWishlist = async (productId, authToken) => {
-    return await axios.post(`${process.env.REACT_APP_API}/user/order `, { productId }, {
+    return await axios.post(`${process.env.REACT_APP_API}/user/wishlist `, { productId }, {
         headers: { authToken }
     });
 }
 
-export const removeToWishlist = async (productId, authToken) => {
+export const removeFromWishlist = async (productId, authToken) => {
     return await axios.put(`${process.env.REACT_APP_API}/user/wishlist/${productId} `, { }, {
         headers: { authToken }
     });
