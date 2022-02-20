@@ -4,6 +4,7 @@ import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { toast } from 'react-toastify';
 import UserNav from '../../components/Navbar/UserNav';
 import { getUserOrders } from '../../functions/user';
+import ShowPaymentInfo from '../../components/Cards/ShowPaymentInfo';
 
 function History() {
 
@@ -27,7 +28,7 @@ function History() {
         return orders.map((order, i) => {
             return (
                 <div key={i} className="m-5 p-3 card">
-                    <p>Show Payment Information</p>
+                    <ShowPaymentInfo order={order} />
                     {showOrderInTable(order)}
                     <div className="row">
                         <div className="col">
@@ -77,7 +78,6 @@ function History() {
     return (
         <div className="container-fluid">
             <div className="row">
-
                 <div className="col-md-2">
                     <UserNav />
                 </div>
