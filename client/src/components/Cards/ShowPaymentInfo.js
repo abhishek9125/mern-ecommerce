@@ -1,7 +1,6 @@
 import React from 'react';
 
 function ShowPaymentInfo({ order }) {
-    console.log(`order`, order)
     return (
         <div>
             <p>

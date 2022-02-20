@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import UserNav from '../../components/Navbar/UserNav';
 import { getUserOrders } from '../../functions/user';
 import ShowPaymentInfo from '../../components/Cards/ShowPaymentInfo';
+import { Document, Page, Text, View, StyleSheet, PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 
 function History() {
 
@@ -24,6 +25,27 @@ function History() {
         })
     }
 
+    const showDownloadLink = () => {
+        return (
+            <PDFDownloadLink
+                document={
+                    <Document>
+                        <Page size="A4">
+                            <View>
+                                <Text>Section #1</Text>
+                                <Text>Section #2</Text>
+                            </View>
+                        </Page>
+                    </Document>
+                }
+                className="btn btn-sm btn-block btn-outline-primary"
+                fileName="invoice.pdf"
+            >
+                DownloadPDF
+            </PDFDownloadLink>
+        )
+    }
+
     const showEachOrder = () => {
         return orders.map((order, i) => {
             return (
@@ -32,7 +54,7 @@ function History() {
                     {showOrderInTable(order)}
                     <div className="row">
                         <div className="col">
-                            <p>PDF Download</p>
+                            {showDownloadLink()}
                         </div>
                     </div>
                 </div>
