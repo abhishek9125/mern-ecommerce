@@ -1,26 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { useDispatch } from "react-redux";
 import { auth } from "./firebase";
-import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
-import RegisterComplete from './pages/auth/RegisterComplete';
-import ForgotPassword from "./pages/auth/ForgotPassword";
-import Home from './pages/Home';
-import UserRoute from "./components/Routes/UserRoute";
-import AdminRoute from "./components/Routes/AdminRoute";
-import Header from "./components/Navbar/Header";
-import { currentUser } from './functions/auth';
+import { LoadingOutlined } from '@ant-design/icons';
 import 'react-toastify/dist/ReactToastify.css';
-import Product from "./pages/Product";
-import CategoryHome from "./pages/category/CategoryHome";
-import SubHome from "./pages/sub/SubHome";
-import Shop from "./pages/Shop";
-import Cart from "./pages/Cart";
-import SideDrawer from "./components/Drawer/SideDrawer";
-import Checkout from "./pages/Checkout";
-import Payment from "./pages/Payment";
+
+const Login = lazy(() =>  import('./pages/auth/Login'));
+const Register = lazy(() =>  import('./pages/auth/Register'));
+const RegisterComplete = lazy(() =>  import('./pages/auth/RegisterComplete'));
+const ForgotPassword = lazy(() =>  import("./pages/auth/ForgotPassword"));
+const Home = lazy(() =>  import('./pages/Home'));
+const UserRoute = lazy(() =>  import("./components/Routes/UserRoute"));
+const AdminRoute = lazy(() =>  import("./components/Routes/AdminRoute"));
+const Header = lazy(() =>  import("./components/Navbar/Header"));
+const { currentUser } = lazy(() =>  import('./functions/auth'));
+const Product = lazy(() =>  import("./pages/Product"));
+const CategoryHome = lazy(() =>  import("./pages/category/CategoryHome"));
+const SubHome = lazy(() =>  import("./pages/sub/SubHome"));
+const Shop = lazy(() =>  import("./pages/Shop"));
+const Cart = lazy(() =>  import("./pages/Cart"));
+const SideDrawer = lazy(() =>  import("./components/Drawer/SideDrawer"));
+const Checkout = lazy(() =>  import("./pages/Checkout"));
+const Payment = lazy(() =>  import("./pages/Payment"));
  
 function App() {
 
@@ -51,25 +53,31 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Header />
-      <SideDrawer />
-      <ToastContainer />
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/product/:slug" element={<Product />} />
-        <Route exact path="/category/:slug" element={<CategoryHome />} />
-        <Route exact path="/sub/:slug" element={<SubHome />} />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/register" element={<Register />} />  
-        <Route exact path="/shop" element={<Shop />} />  
-        <Route exact path="/cart" element={<Cart />} />  
-        <Route exact path="/checkout" element={<Checkout />} />  
-        <Route exact path="/payment" element={<Payment />} />  
-        <Route exact path="/register/complete" element={<RegisterComplete />} />  
-        <Route exact path="/forgot/password" element={<ForgotPassword />} />  
-        <Route path="/user/*" element={<UserRoute />} />  
-        <Route path="/admin/*" element={<AdminRoute />} />  
-      </Routes>
+      <Suspense fallback={
+        <div className="col text-center p-5"> 
+          <LoadingOutlined />
+        </div>
+      }>
+        <Header />
+        <SideDrawer />
+        <ToastContainer />
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/product/:slug" element={<Product />} />
+          <Route exact path="/category/:slug" element={<CategoryHome />} />
+          <Route exact path="/sub/:slug" element={<SubHome />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/register" element={<Register />} />  
+          <Route exact path="/shop" element={<Shop />} />  
+          <Route exact path="/cart" element={<Cart />} />  
+          <Route exact path="/checkout" element={<Checkout />} />  
+          <Route exact path="/payment" element={<Payment />} />  
+          <Route exact path="/register/complete" element={<RegisterComplete />} />  
+          <Route exact path="/forgot/password" element={<ForgotPassword />} />  
+          <Route path="/user/*" element={<UserRoute />} />  
+          <Route path="/admin/*" element={<AdminRoute />} />  
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }
