@@ -52,6 +52,23 @@ function Cart() {
         })
     }
 
+    const saveCashOrderToDb = () => {
+
+        dispatch({
+            type: 'COD',
+            payload: true
+        })
+
+        userCart(cart, user.token)
+        .then((response) => {
+            if(response.data.ok) {
+                navigate('/checkout')
+            }            
+        }).catch((error) => {
+            console.log('Error Saving Cart in DB : ', error);
+        })
+    }
+
     const handleLoginClick = () => {
         navigate(`/login?path=/cart`);
     }
@@ -88,9 +105,15 @@ function Cart() {
                     <hr />
                     {
                         user ? 
-                        <button onClick={saveOrderToDb} className="btn btn-sn btn-primary btn-raised" disabled={!cart.length}>
-                            Proceed To Checkout
-                        </button> :
+                        <>
+                            <button onClick={saveOrderToDb} className="btn btn-sn btn-primary btn-raised" disabled={!cart.length}>
+                                Proceed To Checkout
+                            </button>
+                            <br />
+                            <button onClick={saveCashOrderToDb} className="btn btn-sn btn-warning btn-raised" disabled={!cart.length}>
+                                Pay Cash on Delivery
+                            </button>
+                        </> :
                         <button className="btn btn-sn btn-primary btn-raised" onClick={handleLoginClick}>
                             Login To Checkout
                         </button>
