@@ -1,0 +1,35 @@
+1.Firebase Registration
+2.Login With Email and Password
+3.Login With Google
+4.User Logout Session
+5.Forgot Password
+6.Update Password
+7.Functional Header Navigation
+8.Admin Protected Routes
+9.User Protected Routes
+10.Category CRUD for Admin
+11.Sub Category CRUD for Admin
+12.Product CRUD for Admin
+13.Product Image Upload
+14.Product Cards
+15.Product Pagination
+16.Product Sliders
+17.Added Best Sellers and New Arrivals
+18.Star Rating System for Product Reviews
+19.Product Render By Categories and Sub Categories
+20.Advanced Search Page Filtering By Price Range, Brand, Color, Rating, Category, Keyword
+21.Created Cart Modal
+22.Product Add To Cart Architecture
+23.Separate Cart Page To Update Product Quantity and Colors
+24.Product Remove From Cart Feature
+25.Product Checkout Page
+26.Save User Address for Delivery
+27.Added Coupon Architecture
+28.Added Functionality to Place Orders
+29.Added Online Payment With Stripe Gateway
+30.Handled Out Of Stock Products
+31.Created User Dashboard for Purchase History
+32.Feature To Download Invoice PDF
+33.Created Admin Dashboard to Manage Placed Orders
+34.Added Feature to Add Products to Wishlist
+35.Added Feature to make Cash On Delivery Orders
