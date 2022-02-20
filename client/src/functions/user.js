@@ -41,3 +41,21 @@ export const getUserOrders = async (authToken) => {
         headers: { authToken }
     });
 }
+
+export const getWishlist = async (authToken) => {
+    return await axios.get(`${process.env.REACT_APP_API}/user/wishlist `, {
+        headers: { authToken }
+    });
+}
+
+export const addToWishlist = async (productId, authToken) => {
+    return await axios.post(`${process.env.REACT_APP_API}/user/order `, { productId }, {
+        headers: { authToken }
+    });
+}
+
+export const removeToWishlist = async (productId, authToken) => {
+    return await axios.put(`${process.env.REACT_APP_API}/user/wishlist/${productId} `, { }, {
+        headers: { authToken }
+    });
+}
