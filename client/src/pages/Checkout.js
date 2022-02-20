@@ -19,6 +19,7 @@ function Checkout() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { user, COD } = useSelector((state) => ({ ...state }));
+    const couponApplied = useSelector((state) => (state.coupon));
 
     useEffect(() => {
         getUserCart(user.token)
@@ -118,7 +119,35 @@ function Checkout() {
     )
 
     const createCashOrder = () => {
+        createCashOrderForUser(user.token, couponApplied)
+        .then((response) => {
+            if(response.data.ok) {
+                if(typeof window != 'undefined') {
+                    localStorage.removeItem('cart');
+                }
 
+                dispatch({
+                    type: 'ADD_TO_CART',
+                    payload: []
+                });
+
+                dispatch({
+                    type: 'COUPON_APPLIED',
+                    paylaod: { coupon: false }
+                });
+
+                dispatch({
+                    type: 'COD',
+                    payload: false
+                });
+
+                emptyUserCart(user.token);
+
+                setTimeout(() => {
+                    navigate('/user/history');
+                },1000);
+            }
+        })
     }
 
     return (
