@@ -15,6 +15,7 @@ function ShowPaymentInfo({ order }) {
                 <span>Method: {order.paymentIntent.payment_method_types[0]}</span>{" / "}
                 <span>Payment: {order.paymentIntent.status.toUpperCase()}</span>{" / "}
                 <span>Ordered On: {new Date(order.paymentIntent.created * 1000).toLocaleString()}</span>{" / "}
+                <br />
                 <span className="badge bg-primary text-white">Status: {order.orderStatus}</span>
             </p>
         </div>
