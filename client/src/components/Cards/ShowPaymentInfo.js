@@ -6,7 +6,7 @@ function ShowPaymentInfo({ order }) {
             <p>
                 {/* <span>Order ID: {order.paymentIntent.id}</span>{" / "} */}
                 <span>
-                    Amount: {((order.paymentIntent.amount*1000*1000*1000*10).toFixed(2)).toLocaleString("en-US", {
+                    Amount: {((order.paymentIntent.amount/100).toFixed(2)).toLocaleString("en-US", {
                         style: 'currency',
                         currency: 'INR'
                     })}

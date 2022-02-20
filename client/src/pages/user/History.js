@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { toast } from 'react-toastify';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 import UserNav from '../../components/Navbar/UserNav';
 import { getUserOrders } from '../../functions/user';
 import ShowPaymentInfo from '../../components/Cards/ShowPaymentInfo';
-import { Document, Page, Text, View, StyleSheet, PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
+import Invoice from '../../components/Orders/Invoice';
 
 function History() {
 
@@ -25,23 +26,14 @@ function History() {
         })
     }
 
-    const showDownloadLink = () => {
+    const showDownloadLink = (order) => {
         return (
             <PDFDownloadLink
-                document={
-                    <Document>
-                        <Page size="A4">
-                            <View>
-                                <Text>Section #1</Text>
-                                <Text>Section #2</Text>
-                            </View>
-                        </Page>
-                    </Document>
-                }
+                document={<Invoice order={order} />}
                 className="btn btn-sm btn-block btn-outline-primary"
                 fileName="invoice.pdf"
             >
-                DownloadPDF
+                Download PDF
             </PDFDownloadLink>
         )
     }
@@ -54,7 +46,7 @@ function History() {
                     {showOrderInTable(order)}
                     <div className="row">
                         <div className="col">
-                            {showDownloadLink()}
+                            {showDownloadLink(order)}
                         </div>
                     </div>
                 </div>
