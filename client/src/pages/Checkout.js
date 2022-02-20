@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getUserCart, emptyUserCart, saveUserAddress, applyCoupon } from '../functions/user';
+import { getUserCart, emptyUserCart, saveUserAddress, applyCoupon, createCashOrderForUser } from '../functions/user';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -18,7 +18,7 @@ function Checkout() {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { user } = useSelector((state) => ({ ...state }));
+    const { user, COD } = useSelector((state) => ({ ...state }));
 
     useEffect(() => {
         getUserCart(user.token)
@@ -117,6 +117,10 @@ function Checkout() {
         </>
     )
 
+    const createCashOrder = () => {
+
+    }
+
     return (
         <div className="row">
             <div className="col-md-6">
@@ -152,9 +156,15 @@ function Checkout() {
                 }
                 <div className="row">
                     <div className="col-md-6">
-                        <button className="btn btn-primary" disabled={!addressSaved || !products.length} onClick={() => { navigate('/payment') }}>
+                        {
+                            COD ?
+                            <button className="btn btn-primary" disabled={!addressSaved || !products.length} onClick={createCashOrder}>
                             Place Order
-                        </button>
+                            </button> :
+                            <button className="btn btn-primary" disabled={!addressSaved || !products.length} onClick={() => { navigate('/payment') }}>
+                                Place Order
+                            </button>
+                        }
                     </div>
                     <div className="col-md-6">
                         <button className="btn btn-primary" onClick={emptyCartHandler} disabled={!products.length}>
